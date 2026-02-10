@@ -1,0 +1,5 @@
+id,type_brick,type,start_to_verif,verif_to_dest,dest_to_end,total_time
+14,BASIC,1,8,12,14,34
+1,CORNER,2,6,18,16,40
+2,HALF,3,4,16,18,38
+15,BASIC,1,6,10,48,64
