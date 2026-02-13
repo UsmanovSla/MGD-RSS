@@ -1,0 +1,361 @@
+﻿<xml>
+	<material auto-delete="false" reference="false" hidden="false" tags="" notes="" type-id="5A8D7B9B-CDC9-49DE-8C16-2EF64FB097AB" plug-in-id="638A0098-0511-482B-95BF-8CF47FD32C17" render-engine-id="99999999-9999-9999-9999-999999999999" type-name="5a8d7b9b-cdc9-49de-8c16-2ef64fb097ab">
+		<parameters-v8>
+			<parameter type="string" name="automatic-dynamic-field-meta-data">&lt;xml/&gt;</parameter>
+			<parameter type="color" name="pbr-base-color">1,1,1,1</parameter>
+			<parameter type="bool" name="pbr-base-color-on">true</parameter>
+			<parameter type="double" name="pbr-base-color-double-amount">1</parameter>
+			<parameter type="int" name="pbr-base-color-amount">100</parameter>
+			<parameter type="double" name="pbr-subsurface">0</parameter>
+			<parameter type="bool" name="pbr-subsurface-on">false</parameter>
+			<parameter type="double" name="pbr-subsurface-double-amount">1</parameter>
+			<parameter type="int" name="pbr-subsurface-amount">100</parameter>
+			<parameter type="double" name="pbr-subsurface-scattering-radius">0</parameter>
+			<parameter type="bool" name="pbr-subsurface-scattering-radius-on">false</parameter>
+			<parameter type="double" name="pbr-subsurface-scattering-radius-double-amount">0.01</parameter>
+			<parameter type="int" name="pbr-subsurface-scattering-radius-amount">1</parameter>
+			<parameter type="double" name="pbr-metallic">0</parameter>
+			<parameter type="bool" name="pbr-metallic-on">false</parameter>
+			<parameter type="double" name="pbr-metallic-double-amount">1</parameter>
+			<parameter type="int" name="pbr-metallic-amount">100</parameter>
+			<parameter type="double" name="pbr-specular">0.5</parameter>
+			<parameter type="bool" name="pbr-specular-on">false</parameter>
+			<parameter type="double" name="pbr-specular-double-amount">1</parameter>
+			<parameter type="int" name="pbr-specular-amount">100</parameter>
+			<parameter type="double" name="pbr-specular-tint">0</parameter>
+			<parameter type="bool" name="pbr-specular-tint-on">false</parameter>
+			<parameter type="double" name="pbr-specular-tint-double-amount">1</parameter>
+			<parameter type="int" name="pbr-specular-tint-amount">100</parameter>
+			<parameter type="double" name="pbr-roughness">1</parameter>
+			<parameter type="bool" name="pbr-roughness-on">false</parameter>
+			<parameter type="double" name="pbr-roughness-double-amount">1</parameter>
+			<parameter type="int" name="pbr-roughness-amount">100</parameter>
+			<parameter type="double" name="pbr-anisotropic">0</parameter>
+			<parameter type="bool" name="pbr-anisotropic-on">false</parameter>
+			<parameter type="double" name="pbr-anisotropic-double-amount">1</parameter>
+			<parameter type="int" name="pbr-anisotropic-amount">100</parameter>
+			<parameter type="double" name="pbr-anisotropic-rotation">0</parameter>
+			<parameter type="bool" name="pbr-anisotropic-rotation-on">false</parameter>
+			<parameter type="double" name="pbr-anisotropic-rotation-double-amount">1</parameter>
+			<parameter type="int" name="pbr-anisotropic-rotation-amount">100</parameter>
+			<parameter type="double" name="pbr-sheen">0</parameter>
+			<parameter type="bool" name="pbr-sheen-on">false</parameter>
+			<parameter type="double" name="pbr-sheen-double-amount">1</parameter>
+			<parameter type="int" name="pbr-sheen-amount">100</parameter>
+			<parameter type="double" name="pbr-sheen-tint">0</parameter>
+			<parameter type="bool" name="pbr-sheen-tint-on">false</parameter>
+			<parameter type="double" name="pbr-sheen-tint-double-amount">1</parameter>
+			<parameter type="int" name="pbr-sheen-tint-amount">100</parameter>
+			<parameter type="double" name="pbr-clearcoat">0</parameter>
+			<parameter type="bool" name="pbr-clearcoat-on">false</parameter>
+			<parameter type="double" name="pbr-clearcoat-double-amount">1</parameter>
+			<parameter type="int" name="pbr-clearcoat-amount">100</parameter>
+			<parameter type="double" name="pbr-clearcoat-roughness">0</parameter>
+			<parameter type="bool" name="pbr-clearcoat-roughness-on">false</parameter>
+			<parameter type="double" name="pbr-clearcoat-roughness-double-amount">1</parameter>
+			<parameter type="int" name="pbr-clearcoat-roughness-amount">100</parameter>
+			<parameter type="double" name="pbr-opacity-ior">1.52</parameter>
+			<parameter type="bool" name="pbr-opacity-ior-on">false</parameter>
+			<parameter type="double" name="pbr-opacity-ior-double-amount">1</parameter>
+			<parameter type="int" name="pbr-opacity-ior-amount">100</parameter>
+			<parameter type="double" name="pbr-opacity">1</parameter>
+			<parameter type="bool" name="pbr-opacity-on">false</parameter>
+			<parameter type="double" name="pbr-opacity-double-amount">1</parameter>
+			<parameter type="int" name="pbr-opacity-amount">100</parameter>
+			<parameter type="double" name="pbr-opacity-roughness">0</parameter>
+			<parameter type="bool" name="pbr-opacity-roughness-on">false</parameter>
+			<parameter type="double" name="pbr-opacity-roughness-double-amount">1</parameter>
+			<parameter type="int" name="pbr-opacity-roughness-amount">100</parameter>
+			<parameter type="double" name="pbr-alpha">1</parameter>
+			<parameter type="bool" name="pbr-alpha-on">false</parameter>
+			<parameter type="double" name="pbr-alpha-double-amount">1</parameter>
+			<parameter type="int" name="pbr-alpha-amount">100</parameter>
+			<parameter type="color" name="pbr-subsurface-scattering-color">1,1,1,1</parameter>
+			<parameter type="bool" name="pbr-subsurface-scattering-color-on">false</parameter>
+			<parameter type="double" name="pbr-subsurface-scattering-color-double-amount">1</parameter>
+			<parameter type="int" name="pbr-subsurface-scattering-color-amount">100</parameter>
+			<parameter type="color" name="pbr-emission">0,0,0,1</parameter>
+			<parameter type="bool" name="pbr-emission-on">false</parameter>
+			<parameter type="double" name="pbr-emission-double-amount">1</parameter>
+			<parameter type="int" name="pbr-emission-amount">100</parameter>
+			<parameter type="double" name="emission-multiplier">1</parameter>
+			<parameter type="bool" name="emission-multiplier-on">false</parameter>
+			<parameter type="double" name="emission-multiplier-double-amount">1</parameter>
+			<parameter type="int" name="emission-multiplier-amount">100</parameter>
+			<parameter type="bool" name="alpha-transparency">true</parameter>
+			<parameter type="double" name="pbr-ambient-occlusion">1</parameter>
+			<parameter type="bool" name="pbr-ambient-occlusion-on">false</parameter>
+			<parameter type="double" name="pbr-ambient-occlusion-double-amount">1</parameter>
+			<parameter type="int" name="pbr-ambient-occlusion-amount">100</parameter>
+			<parameter type="color" name="pbr-bump">0,0,0,1</parameter>
+			<parameter type="bool" name="pbr-bump-on">false</parameter>
+			<parameter type="double" name="pbr-bump-double-amount">0.3</parameter>
+			<parameter type="int" name="pbr-bump-amount">30</parameter>
+			<parameter type="double" name="pbr-displacement">0</parameter>
+			<parameter type="bool" name="pbr-displacement-on">false</parameter>
+			<parameter type="double" name="pbr-displacement-double-amount">0.001</parameter>
+			<parameter type="int" name="pbr-displacement-amount">0</parameter>
+			<parameter type="color" name="pbr-clearcoat-bump">0,0,0,1</parameter>
+			<parameter type="bool" name="pbr-clearcoat-bump-on">false</parameter>
+			<parameter type="double" name="pbr-clearcoat-bump-double-amount">1</parameter>
+			<parameter type="int" name="pbr-clearcoat-bump-amount">100</parameter>
+			<parameter type="bool" name="pbr-show-ui-basic-metalrough">true</parameter>
+			<parameter type="bool" name="pbr-show-ui-subsurface">false</parameter>
+			<parameter type="bool" name="pbr-show-ui-specularity">false</parameter>
+			<parameter type="bool" name="pbr-show-ui-anisotropy">false</parameter>
+			<parameter type="bool" name="pbr-show-ui-sheen">false</parameter>
+			<parameter type="bool" name="pbr-show-ui-clearcoat">false</parameter>
+			<parameter type="bool" name="pbr-show-ui-opacity">false</parameter>
+			<parameter type="bool" name="pbr-show-ui-emission">false</parameter>
+			<parameter type="bool" name="pbr-show-ui-bump-displacement">false</parameter>
+			<parameter type="bool" name="pbr-show-ui-ambient-occlusion">false</parameter>
+		</parameters-v8>
+		<parameters>
+			<automatic-dynamic-field-meta-data type="string">&lt;xml/&gt;</automatic-dynamic-field-meta-data>
+			<pbr-base-color type="color">1,1,1,1</pbr-base-color>
+			<pbr-base-color-on type="bool">true</pbr-base-color-on>
+			<pbr-base-color-double-amount type="double">1</pbr-base-color-double-amount>
+			<pbr-base-color-amount type="int">100</pbr-base-color-amount>
+			<pbr-subsurface type="double">0</pbr-subsurface>
+			<pbr-subsurface-on type="bool">false</pbr-subsurface-on>
+			<pbr-subsurface-double-amount type="double">1</pbr-subsurface-double-amount>
+			<pbr-subsurface-amount type="int">100</pbr-subsurface-amount>
+			<pbr-subsurface-scattering-radius type="double">0</pbr-subsurface-scattering-radius>
+			<pbr-subsurface-scattering-radius-on type="bool">false</pbr-subsurface-scattering-radius-on>
+			<pbr-subsurface-scattering-radius-double-amount type="double">0.01</pbr-subsurface-scattering-radius-double-amount>
+			<pbr-subsurface-scattering-radius-amount type="int">1</pbr-subsurface-scattering-radius-amount>
+			<pbr-metallic type="double">0</pbr-metallic>
+			<pbr-metallic-on type="bool">false</pbr-metallic-on>
+			<pbr-metallic-double-amount type="double">1</pbr-metallic-double-amount>
+			<pbr-metallic-amount type="int">100</pbr-metallic-amount>
+			<pbr-specular type="double">0.5</pbr-specular>
+			<pbr-specular-on type="bool">false</pbr-specular-on>
+			<pbr-specular-double-amount type="double">1</pbr-specular-double-amount>
+			<pbr-specular-amount type="int">100</pbr-specular-amount>
+			<pbr-specular-tint type="double">0</pbr-specular-tint>
+			<pbr-specular-tint-on type="bool">false</pbr-specular-tint-on>
+			<pbr-specular-tint-double-amount type="double">1</pbr-specular-tint-double-amount>
+			<pbr-specular-tint-amount type="int">100</pbr-specular-tint-amount>
+			<pbr-roughness type="double">1</pbr-roughness>
+			<pbr-roughness-on type="bool">false</pbr-roughness-on>
+			<pbr-roughness-double-amount type="double">1</pbr-roughness-double-amount>
+			<pbr-roughness-amount type="int">100</pbr-roughness-amount>
+			<pbr-anisotropic type="double">0</pbr-anisotropic>
+			<pbr-anisotropic-on type="bool">false</pbr-anisotropic-on>
+			<pbr-anisotropic-double-amount type="double">1</pbr-anisotropic-double-amount>
+			<pbr-anisotropic-amount type="int">100</pbr-anisotropic-amount>
+			<pbr-anisotropic-rotation type="double">0</pbr-anisotropic-rotation>
+			<pbr-anisotropic-rotation-on type="bool">false</pbr-anisotropic-rotation-on>
+			<pbr-anisotropic-rotation-double-amount type="double">1</pbr-anisotropic-rotation-double-amount>
+			<pbr-anisotropic-rotation-amount type="int">100</pbr-anisotropic-rotation-amount>
+			<pbr-sheen type="double">0</pbr-sheen>
+			<pbr-sheen-on type="bool">false</pbr-sheen-on>
+			<pbr-sheen-double-amount type="double">1</pbr-sheen-double-amount>
+			<pbr-sheen-amount type="int">100</pbr-sheen-amount>
+			<pbr-sheen-tint type="double">0</pbr-sheen-tint>
+			<pbr-sheen-tint-on type="bool">false</pbr-sheen-tint-on>
+			<pbr-sheen-tint-double-amount type="double">1</pbr-sheen-tint-double-amount>
+			<pbr-sheen-tint-amount type="int">100</pbr-sheen-tint-amount>
+			<pbr-clearcoat type="double">0</pbr-clearcoat>
+			<pbr-clearcoat-on type="bool">false</pbr-clearcoat-on>
+			<pbr-clearcoat-double-amount type="double">1</pbr-clearcoat-double-amount>
+			<pbr-clearcoat-amount type="int">100</pbr-clearcoat-amount>
+			<pbr-clearcoat-roughness type="double">0</pbr-clearcoat-roughness>
+			<pbr-clearcoat-roughness-on type="bool">false</pbr-clearcoat-roughness-on>
+			<pbr-clearcoat-roughness-double-amount type="double">1</pbr-clearcoat-roughness-double-amount>
+			<pbr-clearcoat-roughness-amount type="int">100</pbr-clearcoat-roughness-amount>
+			<pbr-opacity-ior type="double">1.52</pbr-opacity-ior>
+			<pbr-opacity-ior-on type="bool">false</pbr-opacity-ior-on>
+			<pbr-opacity-ior-double-amount type="double">1</pbr-opacity-ior-double-amount>
+			<pbr-opacity-ior-amount type="int">100</pbr-opacity-ior-amount>
+			<pbr-opacity type="double">1</pbr-opacity>
+			<pbr-opacity-on type="bool">false</pbr-opacity-on>
+			<pbr-opacity-double-amount type="double">1</pbr-opacity-double-amount>
+			<pbr-opacity-amount type="int">100</pbr-opacity-amount>
+			<pbr-opacity-roughness type="double">0</pbr-opacity-roughness>
+			<pbr-opacity-roughness-on type="bool">false</pbr-opacity-roughness-on>
+			<pbr-opacity-roughness-double-amount type="double">1</pbr-opacity-roughness-double-amount>
+			<pbr-opacity-roughness-amount type="int">100</pbr-opacity-roughness-amount>
+			<pbr-alpha type="double">1</pbr-alpha>
+			<pbr-alpha-on type="bool">false</pbr-alpha-on>
+			<pbr-alpha-double-amount type="double">1</pbr-alpha-double-amount>
+			<pbr-alpha-amount type="int">100</pbr-alpha-amount>
+			<pbr-subsurface-scattering-color type="color">1,1,1,1</pbr-subsurface-scattering-color>
+			<pbr-subsurface-scattering-color-on type="bool">false</pbr-subsurface-scattering-color-on>
+			<pbr-subsurface-scattering-color-double-amount type="double">1</pbr-subsurface-scattering-color-double-amount>
+			<pbr-subsurface-scattering-color-amount type="int">100</pbr-subsurface-scattering-color-amount>
+			<pbr-emission type="color">0,0,0,1</pbr-emission>
+			<pbr-emission-on type="bool">false</pbr-emission-on>
+			<pbr-emission-double-amount type="double">1</pbr-emission-double-amount>
+			<pbr-emission-amount type="int">100</pbr-emission-amount>
+			<emission-multiplier type="double">1</emission-multiplier>
+			<emission-multiplier-on type="bool">false</emission-multiplier-on>
+			<emission-multiplier-double-amount type="double">1</emission-multiplier-double-amount>
+			<emission-multiplier-amount type="int">100</emission-multiplier-amount>
+			<alpha-transparency type="bool">true</alpha-transparency>
+			<pbr-ambient-occlusion type="double">1</pbr-ambient-occlusion>
+			<pbr-ambient-occlusion-on type="bool">false</pbr-ambient-occlusion-on>
+			<pbr-ambient-occlusion-double-amount type="double">1</pbr-ambient-occlusion-double-amount>
+			<pbr-ambient-occlusion-amount type="int">100</pbr-ambient-occlusion-amount>
+			<pbr-bump type="color">0,0,0,1</pbr-bump>
+			<pbr-bump-on type="bool">false</pbr-bump-on>
+			<pbr-bump-double-amount type="double">0.3</pbr-bump-double-amount>
+			<pbr-bump-amount type="int">30</pbr-bump-amount>
+			<pbr-displacement type="double">0</pbr-displacement>
+			<pbr-displacement-on type="bool">false</pbr-displacement-on>
+			<pbr-displacement-double-amount type="double">0.001</pbr-displacement-double-amount>
+			<pbr-displacement-amount type="int">0</pbr-displacement-amount>
+			<pbr-clearcoat-bump type="color">0,0,0,1</pbr-clearcoat-bump>
+			<pbr-clearcoat-bump-on type="bool">false</pbr-clearcoat-bump-on>
+			<pbr-clearcoat-bump-double-amount type="double">1</pbr-clearcoat-bump-double-amount>
+			<pbr-clearcoat-bump-amount type="int">100</pbr-clearcoat-bump-amount>
+			<pbr-show-ui-basic-metalrough type="bool">true</pbr-show-ui-basic-metalrough>
+			<pbr-show-ui-subsurface type="bool">false</pbr-show-ui-subsurface>
+			<pbr-show-ui-specularity type="bool">false</pbr-show-ui-specularity>
+			<pbr-show-ui-anisotropy type="bool">false</pbr-show-ui-anisotropy>
+			<pbr-show-ui-sheen type="bool">false</pbr-show-ui-sheen>
+			<pbr-show-ui-clearcoat type="bool">false</pbr-show-ui-clearcoat>
+			<pbr-show-ui-opacity type="bool">false</pbr-show-ui-opacity>
+			<pbr-show-ui-emission type="bool">false</pbr-show-ui-emission>
+			<pbr-show-ui-bump-displacement type="bool">false</pbr-show-ui-bump-displacement>
+			<pbr-show-ui-ambient-occlusion type="bool">false</pbr-show-ui-ambient-occlusion>
+		</parameters>
+		<simulation>
+			<ambient type="color">0,0,0,1</ambient>
+			<diffuse type="color">1,1,1,1</diffuse>
+			<emission type="color">0,0,0,1</emission>
+			<specular type="color">0,0,0,1</specular>
+			<reflection type="color">1,1,1,1</reflection>
+			<shine type="double">0</shine>
+			<transparency type="double">0</transparency>
+			<reflectivity type="double">0</reflectivity>
+			<ior type="double">1.52</ior>
+			<fresnel-enabled type="bool">true</fresnel-enabled>
+			<polish-amount type="double">0</polish-amount>
+			<clarity-amount type="double">1</clarity-amount>
+			<transparent type="color">1,1,1,1</transparent>
+			<Texture-1-filename type="string">https://files.mcneel.com/rhino/6.0/textures/Oak light_100_DP.jpg</Texture-1-filename>
+			<Texture-1-on type="bool">true</Texture-1-on>
+			<Texture-1-amount type="double">1</Texture-1-amount>
+			<Texture-1-filter type="int">0</Texture-1-filter>
+			<Texture-1-mode type="int">1</Texture-1-mode>
+			<Texture-1-uvw type="matrix">10,0,0,0,0,10,0,0,0,0,1,0,0,0,0,1</Texture-1-uvw>
+			<Texture-1-type type="int">1</Texture-1-type>
+			<Texture-1-wrap-u type="int">0</Texture-1-wrap-u>
+			<Texture-1-wrap-v type="int">0</Texture-1-wrap-v>
+			<is-physically-based type="bool">true</is-physically-based>
+			<pbr-brdf type="string">ggx</pbr-brdf>
+			<pbr-base-color type="color">1,1,1,1</pbr-base-color>
+			<pbr-subsurface type="double">0</pbr-subsurface>
+			<pbr-subsurface-scattering-color type="color">1,1,1,1</pbr-subsurface-scattering-color>
+			<pbr-subsurface-scattering-radius type="double">0</pbr-subsurface-scattering-radius>
+			<pbr-specular type="double">0.5</pbr-specular>
+			<pbr-specular-tint type="double">0</pbr-specular-tint>
+			<pbr-metallic type="double">0</pbr-metallic>
+			<pbr-roughness type="double">1</pbr-roughness>
+			<pbr-anisotropic type="double">0</pbr-anisotropic>
+			<pbr-anisotropic-rotation type="double">0</pbr-anisotropic-rotation>
+			<pbr-sheen type="double">0</pbr-sheen>
+			<pbr-sheen-tint type="double">0</pbr-sheen-tint>
+			<pbr-clearcoat type="double">0</pbr-clearcoat>
+			<pbr-clearcoat-roughness type="double">0</pbr-clearcoat-roughness>
+			<pbr-opacity type="double">1</pbr-opacity>
+			<pbr-opacity-ior type="double">1.52</pbr-opacity-ior>
+			<pbr-opacity-roughness type="double">0</pbr-opacity-roughness>
+			<pbr-emission type="color">0,0,0,1</pbr-emission>
+			<pbr-alpha type="double">1</pbr-alpha>
+			<pbr-use-base-color-texture-alpha type="bool">true</pbr-use-base-color-texture-alpha>
+		</simulation>
+		<texture child-slot-name="pbr-base-color" auto-delete="false" reference="false" hidden="false" tags="" notes="" instance-name="Oak light_100_DP.jpg" type-id="57E0ED08-1907-4529-B01B-0C4A242455FD" plug-in-id="16592D58-4A2F-401D-BF5E-3B87741C1B1B" render-engine-id="99999999-9999-9999-9999-999999999999" type-name="rcm-basic-texture">
+			<parameters-v8>
+				<parameter type="double" name="simulation-bump-scale-m_t_0">0</parameter>
+				<parameter type="double" name="simulation-bump-scale-m_t_1">1</parameter>
+				<parameter type="bool" name="rdk-texture-preview-in-3D">false</parameter>
+				<parameter type="bool" name="rdk-texture-preview-local-mapping">true</parameter>
+				<parameter type="bool" name="rdk-texture-display-in-viewport">false</parameter>
+				<parameter type="bool" name="rdk-texture-repeat-locked">true</parameter>
+				<parameter type="bool" name="rdk-texture-offset-locked">false</parameter>
+				<parameter type="int" name="rdk-texture-mapping-channel">1</parameter>
+				<parameter type="int" name="rdk-texture-wrap-type">1</parameter>
+				<parameter type="int" name="rdk-texture-projection-mode">4</parameter>
+				<parameter type="int" name="rdk-texture-environment-mapping-mode">0</parameter>
+				<parameter type="vector3d" name="rdk-texture-repeat">1,1,1</parameter>
+				<parameter type="vector3d" name="rdk-texture-size">0.1,0.1,0.001</parameter>
+				<parameter type="vector3d" name="rdk-texture-offset">0,0,0</parameter>
+				<parameter type="vector3d" name="rdk-texture-rotation">0,0,0</parameter>
+				<parameter type="bool" name="rdk-texture-adjust-invert">false</parameter>
+				<parameter type="bool" name="rdk-texture-adjust-grayscale">false</parameter>
+				<parameter type="bool" name="rdk-texture-adjust-clamp">false</parameter>
+				<parameter type="bool" name="rdk-texture-adjust-scale-to-clamp">false</parameter>
+				<parameter type="double" name="rdk-texture-adjust-multiplier">1</parameter>
+				<parameter type="double" name="rdk-texture-adjust-clamp-min">0</parameter>
+				<parameter type="double" name="rdk-texture-adjust-clamp-max">1</parameter>
+				<parameter type="double" name="rdk-texture-adjust-gain">0.5</parameter>
+				<parameter type="double" name="rdk-texture-adjust-gamma">1</parameter>
+				<parameter type="double" name="rdk-texture-adjust-saturation">1</parameter>
+				<parameter type="double" name="rdk-texture-adjust-hue-shift">0</parameter>
+				<parameter type="string" name="filename">https://files.mcneel.com/rhino/6.0/textures/Oak light_100_DP.jpg</parameter>
+				<parameter type="bool" name="has-transparent-color">false</parameter>
+				<parameter type="bool" name="use-alpha-channel">true</parameter>
+				<parameter type="color" name="transparent-color">0,0,0,1</parameter>
+				<parameter type="double" name="transparent-color-sensitivity">0</parameter>
+				<parameter type="bool" name="filter">false</parameter>
+				<parameter type="bool" name="mirror-alternate-tiles">false</parameter>
+				<parameter type="bool" name="treat-as-linear">false</parameter>
+			</parameters-v8>
+			<parameters>
+				<simulation-bump-scale-m_t_0 type="double">0</simulation-bump-scale-m_t_0>
+				<simulation-bump-scale-m_t_1 type="double">1</simulation-bump-scale-m_t_1>
+				<rdk-texture-preview-in-3D type="bool">false</rdk-texture-preview-in-3D>
+				<rdk-texture-preview-local-mapping type="bool">true</rdk-texture-preview-local-mapping>
+				<rdk-texture-display-in-viewport type="bool">false</rdk-texture-display-in-viewport>
+				<rdk-texture-repeat-locked type="bool">true</rdk-texture-repeat-locked>
+				<rdk-texture-offset-locked type="bool">false</rdk-texture-offset-locked>
+				<rdk-texture-mapping-channel type="int">1</rdk-texture-mapping-channel>
+				<rdk-texture-wrap-type type="int">1</rdk-texture-wrap-type>
+				<rdk-texture-projection-mode type="int">4</rdk-texture-projection-mode>
+				<rdk-texture-environment-mapping-mode type="int">0</rdk-texture-environment-mapping-mode>
+				<rdk-texture-repeat type="vector3d">1,1,1</rdk-texture-repeat>
+				<rdk-texture-size type="vector3d">0.1,0.1,0.001</rdk-texture-size>
+				<rdk-texture-offset type="vector3d">0,0,0</rdk-texture-offset>
+				<rdk-texture-rotation type="vector3d">0,0,0</rdk-texture-rotation>
+				<rdk-texture-adjust-invert type="bool">false</rdk-texture-adjust-invert>
+				<rdk-texture-adjust-grayscale type="bool">false</rdk-texture-adjust-grayscale>
+				<rdk-texture-adjust-clamp type="bool">false</rdk-texture-adjust-clamp>
+				<rdk-texture-adjust-scale-to-clamp type="bool">false</rdk-texture-adjust-scale-to-clamp>
+				<rdk-texture-adjust-multiplier type="double">1</rdk-texture-adjust-multiplier>
+				<rdk-texture-adjust-clamp-min type="double">0</rdk-texture-adjust-clamp-min>
+				<rdk-texture-adjust-clamp-max type="double">1</rdk-texture-adjust-clamp-max>
+				<rdk-texture-adjust-gain type="double">0.5</rdk-texture-adjust-gain>
+				<rdk-texture-adjust-gamma type="double">1</rdk-texture-adjust-gamma>
+				<rdk-texture-adjust-saturation type="double">1</rdk-texture-adjust-saturation>
+				<rdk-texture-adjust-hue-shift type="double">0</rdk-texture-adjust-hue-shift>
+				<filename type="string">https://files.mcneel.com/rhino/6.0/textures/Oak light_100_DP.jpg</filename>
+				<has-transparent-color type="bool">false</has-transparent-color>
+				<use-alpha-channel type="bool">true</use-alpha-channel>
+				<transparent-color type="color">0,0,0,1</transparent-color>
+				<transparent-color-sensitivity type="double">0</transparent-color-sensitivity>
+				<filter type="bool">false</filter>
+				<mirror-alternate-tiles type="bool">false</mirror-alternate-tiles>
+				<treat-as-linear type="bool">false</treat-as-linear>
+			</parameters>
+			<simulation>
+				<filename type="string">https://files.mcneel.com/rhino/6.0/textures/Oak light_100_DP.jpg</filename>
+				<repeat type="vector2d">10,10</repeat>
+				<offset type="vector2d">0,0</offset>
+				<rotation type="double">0</rotation>
+				<wrap-type type="int">1</wrap-type>
+				<mapping-channel type="int">-13</mapping-channel>
+				<projection-mode type="int">4</projection-mode>
+				<has-trans-color type="bool">false</has-trans-color>
+				<trans-color type="color">0,0,0,1</trans-color>
+				<trans-color-sensitivity type="double">0</trans-color-sensitivity>
+			</simulation>
+		</texture>
+	</material>
+	<meta-data>
+		<renderer-name>Generic</renderer-name>
+		<type-name>Physically Based</type-name>
+	</meta-data>
+	<thumbnail encoding="base64" compression="none" compressed-size="5863" original-size="5863" format="jpeg" height="256" width="256">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</thumbnail>
+</xml>
