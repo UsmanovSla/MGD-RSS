@@ -7332,12 +7332,7 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
-    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
-    if(elkUrl) {
-      const elkLayouts = (await import(elkUrl)).default;
-      mermaid.registerLayoutLoaders(elkLayouts);
-    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7434,8 +7429,7 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
-      return `${SVG_XML_HEADER}${svg}`;
+      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
     }
 
 
@@ -7461,285 +7455,6 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
-
-
-  /**
-   * Named HTML entities with their decimal equivalent codes.
-   *
-   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
-   * */
-  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
-<!ENTITY aacute "&#225;">
-<!ENTITY Acirc "&#194;">
-<!ENTITY acirc "&#226;">
-<!ENTITY acute "&#180;">
-<!ENTITY AElig "&#198;">
-<!ENTITY aelig "&#230;">
-<!ENTITY Agrave "&#192;">
-<!ENTITY agrave "&#224;">
-<!ENTITY alefsym "&#8501;">
-<!ENTITY Alpha "&#913;">
-<!ENTITY alpha "&#945;">
-<!ENTITY amp "&#38;">
-<!ENTITY and "&#8869;">
-<!ENTITY ang "&#8736;">
-<!ENTITY Aring "&#197;">
-<!ENTITY aring "&#229;">
-<!ENTITY asymp "&#8776;">
-<!ENTITY Atilde "&#195;">
-<!ENTITY atilde "&#227;">
-<!ENTITY Auml "&#196;">
-<!ENTITY auml "&#228;">
-<!ENTITY bdquo "&#8222;">
-<!ENTITY Beta "&#914;">
-<!ENTITY beta "&#946;">
-<!ENTITY brvbar "&#166;">
-<!ENTITY bull "&#8226;">
-<!ENTITY cap "&#8745;">
-<!ENTITY Ccedil "&#199;">
-<!ENTITY ccedil "&#231;">
-<!ENTITY cedil "&#184;">
-<!ENTITY cent "&#162;">
-<!ENTITY Chi "&#935;">
-<!ENTITY chi "&#967;">
-<!ENTITY circ "&#710;">
-<!ENTITY clubs "&#9827;">
-<!ENTITY cong "&#8773;">
-<!ENTITY copy "&#169;">
-<!ENTITY crarr "&#8629;">
-<!ENTITY cup "&#8746;">
-<!ENTITY curren "&#164;">
-<!ENTITY dagger "&#8224;">
-<!ENTITY Dagger "&#8225;">
-<!ENTITY darr "&#8595;">
-<!ENTITY dArr "&#8659;">
-<!ENTITY deg "&#176;">
-<!ENTITY Delta "&#916;">
-<!ENTITY delta "&#948;">
-<!ENTITY diams "&#9830;">
-<!ENTITY divide "&#247;">
-<!ENTITY Eacute "&#201;">
-<!ENTITY eacute "&#233;">
-<!ENTITY Ecirc "&#202;">
-<!ENTITY ecirc "&#234;">
-<!ENTITY Egrave "&#200;">
-<!ENTITY egrave "&#232;">
-<!ENTITY empty "&#8709;">
-<!ENTITY emsp "&#8195;">
-<!ENTITY ensp "&#8194;">
-<!ENTITY epsilon "&#949;">
-<!ENTITY Epsilon "&#917;">
-<!ENTITY equiv "&#8801;">
-<!ENTITY Eta "&#919;">
-<!ENTITY eta "&#951;">
-<!ENTITY ETH "&#208;">
-<!ENTITY eth "&#240;">
-<!ENTITY Euml "&#203;">
-<!ENTITY euml "&#235;">
-<!ENTITY exist "&#8707;">
-<!ENTITY fnof "&#402;">
-<!ENTITY forall "&#8704;">
-<!ENTITY frac12 "&#189;">
-<!ENTITY frac14 "&#188;">
-<!ENTITY frac34 "&#190;">
-<!ENTITY frasl "&#8260;">
-<!ENTITY Gamma "&#915;">
-<!ENTITY gamma "&#947;">
-<!ENTITY ge "&#8805;">
-<!ENTITY gt "&#62;">
-<!ENTITY harr "&#8596;">
-<!ENTITY hArr "&#8660;">
-<!ENTITY hearts "&#9829;">
-<!ENTITY hellip "&#8230;">
-<!ENTITY Iacute "&#205;">
-<!ENTITY iacute "&#237;">
-<!ENTITY Icirc "&#206;">
-<!ENTITY icirc "&#238;">
-<!ENTITY iexcl "&#161;">
-<!ENTITY Igrave "&#204;">
-<!ENTITY igrave "&#236;">
-<!ENTITY image "&#8465;">
-<!ENTITY infin "&#8734;">
-<!ENTITY int "&#8747;">
-<!ENTITY Iota "&#921;">
-<!ENTITY iota "&#953;">
-<!ENTITY iquest "&#191;">
-<!ENTITY isin "&#8712;">
-<!ENTITY Iuml "&#207;">
-<!ENTITY iuml "&#239;">
-<!ENTITY Kappa "&#922;">
-<!ENTITY kappa "&#954;">
-<!ENTITY Lambda "&#923;">
-<!ENTITY lambda "&#955;">
-<!ENTITY lang "&#9001;">
-<!ENTITY laquo "&#171;">
-<!ENTITY larr "&#8592;">
-<!ENTITY lArr "&#8656;">
-<!ENTITY lceil "&#8968;">
-<!ENTITY ldquo "&#8220;">
-<!ENTITY le "&#8804;">
-<!ENTITY lfloor "&#8970;">
-<!ENTITY lowast "&#8727;">
-<!ENTITY loz "&#9674;">
-<!ENTITY lrm "&#8206;">
-<!ENTITY lsaquo "&#8249;">
-<!ENTITY lsquo "&#8216;">
-<!ENTITY lt "&#60;">
-<!ENTITY macr "&#175;">
-<!ENTITY mdash "&#8212;">
-<!ENTITY micro "&#181;">
-<!ENTITY middot "&#183;">
-<!ENTITY minus "&#8722;">
-<!ENTITY Mu "&#924;">
-<!ENTITY mu "&#956;">
-<!ENTITY nabla "&#8711;">
-<!ENTITY nbsp "&#160;">
-<!ENTITY ndash "&#8211;">
-<!ENTITY ne "&#8800;">
-<!ENTITY ni "&#8715;">
-<!ENTITY not "&#172;">
-<!ENTITY notin "&#8713;">
-<!ENTITY nsub "&#8836;">
-<!ENTITY Ntilde "&#209;">
-<!ENTITY ntilde "&#241;">
-<!ENTITY Nu "&#925;">
-<!ENTITY nu "&#957;">
-<!ENTITY Oacute "&#211;">
-<!ENTITY oacute "&#243;">
-<!ENTITY Ocirc "&#212;">
-<!ENTITY ocirc "&#244;">
-<!ENTITY OElig "&#338;">
-<!ENTITY oelig "&#339;">
-<!ENTITY Ograve "&#210;">
-<!ENTITY ograve "&#242;">
-<!ENTITY oline "&#8254;">
-<!ENTITY Omega "&#937;">
-<!ENTITY omega "&#969;">
-<!ENTITY Omicron "&#927;">
-<!ENTITY omicron "&#959;">
-<!ENTITY oplus "&#8853;">
-<!ENTITY or "&#8870;">
-<!ENTITY ordf "&#170;">
-<!ENTITY ordm "&#186;">
-<!ENTITY Oslash "&#216;">
-<!ENTITY oslash "&#248;">
-<!ENTITY Otilde "&#213;">
-<!ENTITY otilde "&#245;">
-<!ENTITY otimes "&#8855;">
-<!ENTITY Ouml "&#214;">
-<!ENTITY ouml "&#246;">
-<!ENTITY para "&#182;">
-<!ENTITY part "&#8706;">
-<!ENTITY permil "&#8240;">
-<!ENTITY perp "&#8869;">
-<!ENTITY Phi "&#934;">
-<!ENTITY phi "&#966;">
-<!ENTITY Pi "&#928;">
-<!ENTITY pi "&#960;">
-<!ENTITY piv "&#982;">
-<!ENTITY plusmn "&#177;">
-<!ENTITY pound "&#163;">
-<!ENTITY prime "&#8242;">
-<!ENTITY Prime "&#8243;">
-<!ENTITY prod "&#8719;">
-<!ENTITY prop "&#8733;">
-<!ENTITY Psi "&#936;">
-<!ENTITY psi "&#968;">
-<!ENTITY quot "&#34;">
-<!ENTITY radic "&#8730;">
-<!ENTITY rang "&#9002;">
-<!ENTITY raquo "&#187;">
-<!ENTITY rarr "&#8594;">
-<!ENTITY rArr "&#8658;">
-<!ENTITY rceil "&#8969;">
-<!ENTITY rdquo "&#8221;">
-<!ENTITY real "&#8476;">
-<!ENTITY reg "&#174;">
-<!ENTITY rfloor "&#8971;">
-<!ENTITY Rho "&#929;">
-<!ENTITY rho "&#961;">
-<!ENTITY rlm "&#8207;">
-<!ENTITY rsaquo "&#8250;">
-<!ENTITY rsquo "&#8217;">
-<!ENTITY sbquo "&#8218;">
-<!ENTITY Scaron "&#352;">
-<!ENTITY scaron "&#353;">
-<!ENTITY sdot "&#8901;">
-<!ENTITY sect "&#167;">
-<!ENTITY shy "&#173;">
-<!ENTITY Sigma "&#931;">
-<!ENTITY sigma "&#963;">
-<!ENTITY sigmaf "&#962;">
-<!ENTITY sim "&#8764;">
-<!ENTITY spades "&#9824;">
-<!ENTITY sub "&#8834;">
-<!ENTITY sube "&#8838;">
-<!ENTITY sum "&#8721;">
-<!ENTITY sup "&#8835;">
-<!ENTITY sup1 "&#185;">
-<!ENTITY sup2 "&#178;">
-<!ENTITY sup3 "&#179;">
-<!ENTITY supe "&#8839;">
-<!ENTITY szlig "&#223;">
-<!ENTITY Tau "&#932;">
-<!ENTITY tau "&#964;">
-<!ENTITY there4 "&#8756;">
-<!ENTITY Theta "&#920;">
-<!ENTITY theta "&#952;">
-<!ENTITY thetasym "&#977;">
-<!ENTITY thinsp "&#8201;">
-<!ENTITY THORN "&#222;">
-<!ENTITY thorn "&#254;">
-<!ENTITY tilde "&#732;">
-<!ENTITY times "&#215;">
-<!ENTITY trade "&#8482;">
-<!ENTITY Uacute "&#218;">
-<!ENTITY uacute "&#250;">
-<!ENTITY uarr "&#8593;">
-<!ENTITY uArr "&#8657;">
-<!ENTITY Ucirc "&#219;">
-<!ENTITY ucirc "&#251;">
-<!ENTITY Ugrave "&#217;">
-<!ENTITY ugrave "&#249;">
-<!ENTITY uml "&#168;">
-<!ENTITY upsih "&#978;">
-<!ENTITY Upsilon "&#933;">
-<!ENTITY upsilon "&#965;">
-<!ENTITY Uuml "&#220;">
-<!ENTITY uuml "&#252;">
-<!ENTITY weierp "&#8472;">
-<!ENTITY Xi "&#926;">
-<!ENTITY xi "&#958;">
-<!ENTITY Yacute "&#221;">
-<!ENTITY yacute "&#253;">
-<!ENTITY yen "&#165;">
-<!ENTITY Yuml "&#376;">
-<!ENTITY yuml "&#255;">
-<!ENTITY Zeta "&#918;">
-<!ENTITY zeta "&#950;">
-<!ENTITY zwj "&#8205;">
-<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
-
-  /**
-   * A reasonably strict xml declaration.
-   */
-  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
-
-  /**
-   * The beginning of the XML doctype declaration.
-   */
-  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
-
-  /**
-   * The end of the XML docype declaration.
-   */
-  const DOCTYPE_END = ']>';
-
-  /**
-   * A full header for an SVG XML document.
-   */
-  const SVG_XML_HEADER = `${XML_DECL}
-    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7842,8 +7557,8 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Import potřebných knihoven</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -7858,7 +7573,7 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Soubor je načten a přiřazen do proměnné ‚df‘</span>
-<span class="n">other_path</span> <span class="o">=</span> <span class="s1">'../../data/raw/timelaps.csv'</span>
+<span class="n">other_path</span> <span class="o">=</span> <span class="s1">'../../data/00_Raw/timelaps.csv'</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">other_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7928,25 +7643,25 @@ a.anchor-link {
 <td>CORNER</td>
 <td>13:52:18</td>
 <td>13:52:24</td>
-<td>13:52:42</td>
-<td>13:52:58</td>
+<td>13:52:41</td>
+<td>13:52:59</td>
 </tr>
 <tr>
 <th>1</th>
 <td>2</td>
 <td>HALF</td>
-<td>13:52:58</td>
+<td>13:52:59</td>
 <td>13:53:02</td>
-<td>13:53:18</td>
-<td>13:53:36</td>
+<td>13:53:19</td>
+<td>13:53:35</td>
 </tr>
 <tr>
 <th>2</th>
 <td>3</td>
 <td>BASIC</td>
-<td>13:53:36</td>
-<td>13:55:20</td>
-<td>13:55:44</td>
+<td>13:53:35</td>
+<td>13:55:21</td>
+<td>13:55:43</td>
 <td>13:56:00</td>
 </tr>
 <tr>
@@ -7956,16 +7671,16 @@ a.anchor-link {
 <td>13:56:00</td>
 <td>13:56:06</td>
 <td>13:56:20</td>
-<td>13:56:36</td>
+<td>13:56:37</td>
 </tr>
 <tr>
 <th>4</th>
 <td>5</td>
 <td>BASIC</td>
 <td>13:56:36</td>
-<td>13:56:40</td>
-<td>13:56:54</td>
-<td>13:58:10</td>
+<td>13:56:41</td>
+<td>13:56:55</td>
+<td>13:58:11</td>
 </tr>
 </tbody>
 </table>
@@ -8071,25 +7786,25 @@ a.anchor-link {
 <td>CORNER</td>
 <td>13:52:18</td>
 <td>13:52:24</td>
-<td>13:52:42</td>
-<td>13:52:58</td>
+<td>13:52:41</td>
+<td>13:52:59</td>
 </tr>
 <tr>
 <th>1</th>
 <td>2</td>
 <td>HALF</td>
-<td>13:52:58</td>
+<td>13:52:59</td>
 <td>13:53:02</td>
-<td>13:53:18</td>
-<td>13:53:36</td>
+<td>13:53:19</td>
+<td>13:53:35</td>
 </tr>
 <tr>
 <th>2</th>
 <td>3</td>
 <td>BASIC</td>
-<td>13:53:36</td>
-<td>13:55:20</td>
-<td>13:55:44</td>
+<td>13:53:35</td>
+<td>13:55:21</td>
+<td>13:55:43</td>
 <td>13:56:00</td>
 </tr>
 <tr>
@@ -8099,16 +7814,16 @@ a.anchor-link {
 <td>13:56:00</td>
 <td>13:56:06</td>
 <td>13:56:20</td>
-<td>13:56:36</td>
+<td>13:56:37</td>
 </tr>
 <tr>
 <th>4</th>
 <td>5</td>
 <td>BASIC</td>
 <td>13:56:36</td>
-<td>13:56:40</td>
-<td>13:56:54</td>
-<td>13:58:10</td>
+<td>13:56:41</td>
+<td>13:56:55</td>
+<td>13:58:11</td>
 </tr>
 </tbody>
 </table>
@@ -8184,25 +7899,25 @@ a.anchor-link {
 <td>CORNER</td>
 <td>13:52:18</td>
 <td>13:52:24</td>
-<td>13:52:42</td>
-<td>13:52:58</td>
+<td>13:52:41</td>
+<td>13:52:59</td>
 </tr>
 <tr>
 <th>1</th>
 <td>2</td>
 <td>HALF</td>
-<td>13:52:58</td>
+<td>13:52:59</td>
 <td>13:53:02</td>
-<td>13:53:18</td>
-<td>13:53:36</td>
+<td>13:53:19</td>
+<td>13:53:35</td>
 </tr>
 <tr>
 <th>2</th>
 <td>3</td>
 <td>BASIC</td>
-<td>13:53:36</td>
-<td>13:55:20</td>
-<td>13:55:44</td>
+<td>13:53:35</td>
+<td>13:55:21</td>
+<td>13:55:43</td>
 <td>13:56:00</td>
 </tr>
 <tr>
@@ -8212,16 +7927,16 @@ a.anchor-link {
 <td>13:56:00</td>
 <td>13:56:06</td>
 <td>13:56:20</td>
-<td>13:56:36</td>
+<td>13:56:37</td>
 </tr>
 <tr>
 <th>4</th>
 <td>5</td>
 <td>BASIC</td>
 <td>13:56:36</td>
-<td>13:56:40</td>
-<td>13:56:54</td>
-<td>13:58:10</td>
+<td>13:56:41</td>
+<td>13:56:55</td>
+<td>13:58:11</td>
 </tr>
 </tbody>
 </table>
@@ -8448,7 +8163,7 @@ Name: count, dtype: int64
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Konverze časové hodnoty</span>
-<span class="k">def</span> <span class="nf">time_convert</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">time_convert</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">h</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">s</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">':'</span><span class="p">))</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">h</span><span class="o">*</span><span class="mi">60</span><span class="o">+</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span><span class="o">+</span><span class="n">s</span>
 </pre></div>
@@ -8518,37 +8233,37 @@ Name: count, dtype: int64
 <td>CORNER</td>
 <td>13:52:18</td>
 <td>13:52:24</td>
-<td>13:52:42</td>
-<td>13:52:58</td>
+<td>13:52:41</td>
+<td>13:52:59</td>
 <td>49938</td>
 <td>49944</td>
-<td>49962</td>
-<td>49978</td>
+<td>49961</td>
+<td>49979</td>
 </tr>
 <tr>
 <th>1</th>
 <td>2</td>
 <td>HALF</td>
-<td>13:52:58</td>
+<td>13:52:59</td>
 <td>13:53:02</td>
-<td>13:53:18</td>
-<td>13:53:36</td>
-<td>49978</td>
+<td>13:53:19</td>
+<td>13:53:35</td>
+<td>49979</td>
 <td>49982</td>
-<td>49998</td>
-<td>50016</td>
+<td>49999</td>
+<td>50015</td>
 </tr>
 <tr>
 <th>2</th>
 <td>3</td>
 <td>BASIC</td>
-<td>13:53:36</td>
-<td>13:55:20</td>
-<td>13:55:44</td>
+<td>13:53:35</td>
+<td>13:55:21</td>
+<td>13:55:43</td>
 <td>13:56:00</td>
-<td>50016</td>
-<td>50120</td>
-<td>50144</td>
+<td>50015</td>
+<td>50121</td>
+<td>50143</td>
 <td>50160</td>
 </tr>
 <tr>
@@ -8558,24 +8273,24 @@ Name: count, dtype: int64
 <td>13:56:00</td>
 <td>13:56:06</td>
 <td>13:56:20</td>
-<td>13:56:36</td>
+<td>13:56:37</td>
 <td>50160</td>
 <td>50166</td>
 <td>50180</td>
-<td>50196</td>
+<td>50197</td>
 </tr>
 <tr>
 <th>4</th>
 <td>5</td>
 <td>BASIC</td>
 <td>13:56:36</td>
-<td>13:56:40</td>
-<td>13:56:54</td>
-<td>13:58:10</td>
+<td>13:56:41</td>
+<td>13:56:55</td>
+<td>13:58:11</td>
 <td>50196</td>
-<td>50200</td>
-<td>50214</td>
-<td>50290</td>
+<td>50201</td>
+<td>50215</td>
+<td>50291</td>
 </tr>
 </tbody>
 </table>
@@ -8654,6 +8369,11 @@ dtype: object</pre>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>C:\Users\Vjačeslav Usmanov\AppData\Local\Temp\ipykernel_23504\716486450.py:2: FutureWarning: Downcasting behavior in `replace` is deprecated and will be removed in a future version. To retain the old behavior, explicitly call `result.infer_objects(copy=False)`. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  df['type'] = df['type_brick'].replace(['CORNER', 'HALF', 'BASIC', 'END'], [2, 3, 1, 4]).infer_objects(copy=False)
+</pre>
+</div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
@@ -8696,39 +8416,39 @@ dtype: object</pre>
 <td>CORNER</td>
 <td>13:52:18</td>
 <td>13:52:24</td>
-<td>13:52:42</td>
-<td>13:52:58</td>
+<td>13:52:41</td>
+<td>13:52:59</td>
 <td>49938</td>
 <td>49944</td>
-<td>49962</td>
-<td>49978</td>
+<td>49961</td>
+<td>49979</td>
 <td>2</td>
 </tr>
 <tr>
 <th>1</th>
 <td>2</td>
 <td>HALF</td>
-<td>13:52:58</td>
+<td>13:52:59</td>
 <td>13:53:02</td>
-<td>13:53:18</td>
-<td>13:53:36</td>
-<td>49978</td>
+<td>13:53:19</td>
+<td>13:53:35</td>
+<td>49979</td>
 <td>49982</td>
-<td>49998</td>
-<td>50016</td>
+<td>49999</td>
+<td>50015</td>
 <td>3</td>
 </tr>
 <tr>
 <th>2</th>
 <td>3</td>
 <td>BASIC</td>
-<td>13:53:36</td>
-<td>13:55:20</td>
-<td>13:55:44</td>
+<td>13:53:35</td>
+<td>13:55:21</td>
+<td>13:55:43</td>
 <td>13:56:00</td>
-<td>50016</td>
-<td>50120</td>
-<td>50144</td>
+<td>50015</td>
+<td>50121</td>
+<td>50143</td>
 <td>50160</td>
 <td>1</td>
 </tr>
@@ -8739,11 +8459,11 @@ dtype: object</pre>
 <td>13:56:00</td>
 <td>13:56:06</td>
 <td>13:56:20</td>
-<td>13:56:36</td>
+<td>13:56:37</td>
 <td>50160</td>
 <td>50166</td>
 <td>50180</td>
-<td>50196</td>
+<td>50197</td>
 <td>1</td>
 </tr>
 <tr>
@@ -8751,13 +8471,13 @@ dtype: object</pre>
 <td>5</td>
 <td>BASIC</td>
 <td>13:56:36</td>
-<td>13:56:40</td>
-<td>13:56:54</td>
-<td>13:58:10</td>
+<td>13:56:41</td>
+<td>13:56:55</td>
+<td>13:58:11</td>
 <td>50196</td>
-<td>50200</td>
-<td>50214</td>
-<td>50290</td>
+<td>50201</td>
+<td>50215</td>
+<td>50291</td>
 <td>1</td>
 </tr>
 </tbody>
@@ -8845,53 +8565,53 @@ dtype: object</pre>
 <td>CORNER</td>
 <td>13:52:18</td>
 <td>13:52:24</td>
-<td>13:52:42</td>
-<td>13:52:58</td>
+<td>13:52:41</td>
+<td>13:52:59</td>
 <td>49938</td>
 <td>49944</td>
-<td>49962</td>
-<td>49978</td>
+<td>49961</td>
+<td>49979</td>
 <td>2</td>
 <td>6</td>
+<td>17</td>
 <td>18</td>
-<td>16</td>
-<td>40</td>
+<td>41</td>
 </tr>
 <tr>
 <th>1</th>
 <td>2</td>
 <td>HALF</td>
-<td>13:52:58</td>
+<td>13:52:59</td>
 <td>13:53:02</td>
-<td>13:53:18</td>
-<td>13:53:36</td>
-<td>49978</td>
+<td>13:53:19</td>
+<td>13:53:35</td>
+<td>49979</td>
 <td>49982</td>
-<td>49998</td>
-<td>50016</td>
+<td>49999</td>
+<td>50015</td>
 <td>3</td>
-<td>4</td>
+<td>3</td>
+<td>17</td>
 <td>16</td>
-<td>18</td>
-<td>38</td>
+<td>36</td>
 </tr>
 <tr>
 <th>2</th>
 <td>3</td>
 <td>BASIC</td>
-<td>13:53:36</td>
-<td>13:55:20</td>
-<td>13:55:44</td>
+<td>13:53:35</td>
+<td>13:55:21</td>
+<td>13:55:43</td>
 <td>13:56:00</td>
-<td>50016</td>
-<td>50120</td>
-<td>50144</td>
+<td>50015</td>
+<td>50121</td>
+<td>50143</td>
 <td>50160</td>
 <td>1</td>
-<td>104</td>
-<td>24</td>
-<td>16</td>
-<td>144</td>
+<td>106</td>
+<td>22</td>
+<td>17</td>
+<td>145</td>
 </tr>
 <tr>
 <th>3</th>
@@ -8900,34 +8620,197 @@ dtype: object</pre>
 <td>13:56:00</td>
 <td>13:56:06</td>
 <td>13:56:20</td>
-<td>13:56:36</td>
+<td>13:56:37</td>
 <td>50160</td>
 <td>50166</td>
 <td>50180</td>
-<td>50196</td>
+<td>50197</td>
 <td>1</td>
 <td>6</td>
 <td>14</td>
-<td>16</td>
-<td>36</td>
+<td>17</td>
+<td>37</td>
 </tr>
 <tr>
 <th>4</th>
 <td>5</td>
 <td>BASIC</td>
 <td>13:56:36</td>
-<td>13:56:40</td>
-<td>13:56:54</td>
-<td>13:58:10</td>
+<td>13:56:41</td>
+<td>13:56:55</td>
+<td>13:58:11</td>
 <td>50196</td>
-<td>50200</td>
-<td>50214</td>
-<td>50290</td>
+<td>50201</td>
+<td>50215</td>
+<td>50291</td>
 <td>1</td>
-<td>4</td>
+<td>5</td>
 <td>14</td>
 <td>76</td>
-<td>94</td>
+<td>95</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>id</th>
+<th>time_start_sec</th>
+<th>time_verif_sec</th>
+<th>time_dest_sec</th>
+<th>time_end_sec</th>
+<th>type</th>
+<th>start_to_verif</th>
+<th>verif_to_dest</th>
+<th>dest_to_end</th>
+<th>total_time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>count</th>
+<td>136.000000</td>
+<td>136.000000</td>
+<td>136.000000</td>
+<td>136.000000</td>
+<td>136.000000</td>
+<td>136.000000</td>
+<td>136.000000</td>
+<td>136.000000</td>
+<td>136.000000</td>
+<td>136.000000</td>
+</tr>
+<tr>
+<th>mean</th>
+<td>68.500000</td>
+<td>53193.125000</td>
+<td>53202.507353</td>
+<td>53217.352941</td>
+<td>53240.102941</td>
+<td>1.250000</td>
+<td>9.382353</td>
+<td>14.845588</td>
+<td>22.750000</td>
+<td>46.977941</td>
+</tr>
+<tr>
+<th>std</th>
+<td>39.403892</td>
+<td>2905.472855</td>
+<td>2904.759721</td>
+<td>2903.065064</td>
+<td>2895.630315</td>
+<td>0.737865</td>
+<td>9.248070</td>
+<td>5.266074</td>
+<td>35.155264</td>
+<td>37.515916</td>
+</tr>
+<tr>
+<th>min</th>
+<td>1.000000</td>
+<td>48678.000000</td>
+<td>48684.000000</td>
+<td>48704.000000</td>
+<td>48724.000000</td>
+<td>1.000000</td>
+<td>2.000000</td>
+<td>6.000000</td>
+<td>6.000000</td>
+<td>26.000000</td>
+</tr>
+<tr>
+<th>25%</th>
+<td>34.750000</td>
+<td>50543.250000</td>
+<td>50549.750000</td>
+<td>50567.000000</td>
+<td>50586.750000</td>
+<td>1.000000</td>
+<td>6.000000</td>
+<td>12.000000</td>
+<td>13.000000</td>
+<td>35.000000</td>
+</tr>
+<tr>
+<th>50%</th>
+<td>68.500000</td>
+<td>51772.000000</td>
+<td>51781.000000</td>
+<td>51793.000000</td>
+<td>51805.000000</td>
+<td>1.000000</td>
+<td>8.000000</td>
+<td>14.000000</td>
+<td>16.000000</td>
+<td>39.000000</td>
+</tr>
+<tr>
+<th>75%</th>
+<td>102.250000</td>
+<td>55851.750000</td>
+<td>55859.250000</td>
+<td>55877.250000</td>
+<td>55903.750000</td>
+<td>1.000000</td>
+<td>10.000000</td>
+<td>17.000000</td>
+<td>22.000000</td>
+<td>46.000000</td>
+</tr>
+<tr>
+<th>max</th>
+<td>136.000000</td>
+<td>57450.000000</td>
+<td>57467.000000</td>
+<td>57473.000000</td>
+<td>57482.000000</td>
+<td>4.000000</td>
+<td>106.000000</td>
+<td>56.000000</td>
+<td>403.000000</td>
+<td>436.000000</td>
 </tr>
 </tbody>
 </table>
@@ -8952,7 +8835,7 @@ dtype: object</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Nastavení horní a dolní meze pro odlehlé hodnoty</span>
@@ -8977,27 +8860,331 @@ dtype: object</pre>
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>&lt;class 'pandas.core.frame.DataFrame'&gt;
-Index: 102 entries, 0 to 135
+Index: 106 entries, 0 to 135
 Data columns (total 15 columns):
- #   Column          Non-Null Count  Dtype
----  ------          --------------  -----
- 0   id              102 non-null    int64
- 1   type_brick      102 non-null    object
- 2   time_start      102 non-null    object
- 3   time_verif      102 non-null    object
- 4   time_dest       102 non-null    object
- 5   time_end        102 non-null    object
- 6   time_start_sec  102 non-null    int64
- 7   time_verif_sec  102 non-null    int64
- 8   time_dest_sec   102 non-null    int64
- 9   time_end_sec    102 non-null    int64
- 10  type            102 non-null    int64
- 11  start_to_verif  102 non-null    int64
- 12  verif_to_dest   102 non-null    int64
- 13  dest_to_end     102 non-null    int64
- 14  total_time      102 non-null    int64
+ #   Column          Non-Null Count  Dtype 
+---  ------          --------------  ----- 
+ 0   id              106 non-null    int64 
+ 1   type_brick      106 non-null    object
+ 2   time_start      106 non-null    object
+ 3   time_verif      106 non-null    object
+ 4   time_dest       106 non-null    object
+ 5   time_end        106 non-null    object
+ 6   time_start_sec  106 non-null    int64 
+ 7   time_verif_sec  106 non-null    int64 
+ 8   time_dest_sec   106 non-null    int64 
+ 9   time_end_sec    106 non-null    int64 
+ 10  type            106 non-null    int64 
+ 11  start_to_verif  106 non-null    int64 
+ 12  verif_to_dest   106 non-null    int64 
+ 13  dest_to_end     106 non-null    int64 
+ 14  total_time      106 non-null    int64 
 dtypes: int64(10), object(5)
-memory usage: 12.8+ KB
+memory usage: 13.2+ KB
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>id</th>
+<th>time_start_sec</th>
+<th>time_verif_sec</th>
+<th>time_dest_sec</th>
+<th>time_end_sec</th>
+<th>type</th>
+<th>start_to_verif</th>
+<th>verif_to_dest</th>
+<th>dest_to_end</th>
+<th>total_time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>count</th>
+<td>106.000000</td>
+<td>106.000000</td>
+<td>106.000000</td>
+<td>106.00000</td>
+<td>106.000000</td>
+<td>106.000000</td>
+<td>106.000000</td>
+<td>106.000000</td>
+<td>106.000000</td>
+<td>106.000000</td>
+</tr>
+<tr>
+<th>mean</th>
+<td>69.622642</td>
+<td>53179.698113</td>
+<td>53188.084906</td>
+<td>53203.00000</td>
+<td>53220.660377</td>
+<td>1.292453</td>
+<td>8.386792</td>
+<td>14.915094</td>
+<td>17.660377</td>
+<td>40.962264</td>
+</tr>
+<tr>
+<th>std</th>
+<td>37.319586</td>
+<td>2881.268663</td>
+<td>2881.518674</td>
+<td>2880.72757</td>
+<td>2879.756921</td>
+<td>0.780317</td>
+<td>3.432536</td>
+<td>3.447892</td>
+<td>6.170416</td>
+<td>6.358982</td>
+</tr>
+<tr>
+<th>min</th>
+<td>1.000000</td>
+<td>48678.000000</td>
+<td>48684.000000</td>
+<td>48704.00000</td>
+<td>48724.000000</td>
+<td>1.000000</td>
+<td>2.000000</td>
+<td>6.000000</td>
+<td>6.000000</td>
+<td>32.000000</td>
+</tr>
+<tr>
+<th>25%</th>
+<td>39.250000</td>
+<td>50539.750000</td>
+<td>50547.250000</td>
+<td>50565.00000</td>
+<td>50580.250000</td>
+<td>1.000000</td>
+<td>6.000000</td>
+<td>13.000000</td>
+<td>14.000000</td>
+<td>36.000000</td>
+</tr>
+<tr>
+<th>50%</th>
+<td>67.500000</td>
+<td>51736.500000</td>
+<td>51745.500000</td>
+<td>51757.00000</td>
+<td>51772.500000</td>
+<td>1.000000</td>
+<td>8.000000</td>
+<td>15.000000</td>
+<td>16.000000</td>
+<td>39.000000</td>
+</tr>
+<tr>
+<th>75%</th>
+<td>102.750000</td>
+<td>55879.250000</td>
+<td>55885.750000</td>
+<td>55905.75000</td>
+<td>55921.250000</td>
+<td>1.000000</td>
+<td>10.000000</td>
+<td>17.000000</td>
+<td>20.750000</td>
+<td>45.750000</td>
+</tr>
+<tr>
+<th>max</th>
+<td>136.000000</td>
+<td>57450.000000</td>
+<td>57467.000000</td>
+<td>57473.00000</td>
+<td>57482.000000</td>
+<td>4.000000</td>
+<td>21.000000</td>
+<td>25.000000</td>
+<td>38.000000</td>
+<td>57.000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="V%C3%BDpo%C4%8Det-nejistoty">Výpočet nejistoty<a class="anchor-link" href="#V%C3%BDpo%C4%8Det-nejistoty">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Výpočet nejistoty měření z časosběrných dat.</span>
+
+<span class="sd">    Parametry:</span>
+<span class="sd">    df       : pandas DataFrame s daty</span>
+<span class="sd">    column   : název sloupce s měřením (např. čas v s)</span>
+<span class="sd">    delta_t  : časové rozlišení přístroje (s)</span>
+<span class="sd">    k        : koeficient rozšíření (default k=2)</span>
+
+<span class="sd">    Návratová hodnota:</span>
+<span class="sd">    dict s výsledky</span>
+<span class="sd">    """</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Typ A</span>
+    <span class="n">u_A</span> <span class="o">=</span> <span class="n">s</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+    <span class="c1"># Typ B (kvantizace)</span>
+    <span class="n">u_B_single</span> <span class="o">=</span> <span class="p">(</span><span class="n">delta_t</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">u_B_mean</span> <span class="o">=</span> <span class="n">u_B_single</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+    <span class="c1"># Kombinovaná</span>
+    <span class="n">u_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">u_A</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">u_B_mean</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Rozšířená</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="n">u_c</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"serie"</span><span class="p">:</span> <span class="n">column</span><span class="p">,</span>
+        <span class="s2">"n"</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span>
+        <span class="s2">"mean"</span><span class="p">:</span> <span class="n">mean</span><span class="p">,</span>
+        <span class="s2">"std_dev"</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span>
+        <span class="s2">"u_A"</span><span class="p">:</span> <span class="n">u_A</span><span class="p">,</span>
+        <span class="s2">"u_B_single"</span><span class="p">:</span> <span class="n">u_B_single</span><span class="p">,</span>
+        <span class="s2">"u_B_mean"</span><span class="p">:</span> <span class="n">u_B_mean</span><span class="p">,</span>
+        <span class="s2">"u_c"</span><span class="p">:</span> <span class="n">u_c</span><span class="p">,</span>
+        <span class="s2">"U"</span><span class="p">:</span> <span class="n">U</span>
+    <span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">report</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'serie'</span><span class="p">]</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Kombinovaná nejistota: (</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'mean'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'u_c'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Rozšířená nejistota: (</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'mean'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'U'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">) s (k=2, 95%)"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Nejistota Typ A (stochastická): </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'u_A'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Nejistota Typ B (přístrojová / 1 měření): </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'u_B_single'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Nejistota Typ B (přístrojová / průměr): </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'u_B_mean'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">'total_time'</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">report</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">'start_to_verif'</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">report</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">'verif_to_dest'</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">report</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">'dest_to_end'</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">report</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>total_time:
+Kombinovaná nejistota: (40.96 ± 0.62)
+Rozšířená nejistota: (40.96 ± 1.24) s (k=2, 95%)
+Nejistota Typ A (stochastická): 0.6176
+Nejistota Typ B (přístrojová / 1 měření): 0.2887
+Nejistota Typ B (přístrojová / průměr): 0.0280
+
+start_to_verif:
+Kombinovaná nejistota: (8.39 ± 0.33)
+Rozšířená nejistota: (8.39 ± 0.67) s (k=2, 95%)
+Nejistota Typ A (stochastická): 0.3334
+Nejistota Typ B (přístrojová / 1 měření): 0.2887
+Nejistota Typ B (přístrojová / průměr): 0.0280
+
+verif_to_dest:
+Kombinovaná nejistota: (14.92 ± 0.34)
+Rozšířená nejistota: (14.92 ± 0.67) s (k=2, 95%)
+Nejistota Typ A (stochastická): 0.3349
+Nejistota Typ B (přístrojová / 1 měření): 0.2887
+Nejistota Typ B (přístrojová / průměr): 0.0280
+
+dest_to_end:
+Kombinovaná nejistota: (17.66 ± 0.60)
+Rozšířená nejistota: (17.66 ± 1.20) s (k=2, 95%)
+Nejistota Typ A (stochastická): 0.5993
+Nejistota Typ B (přístrojová / 1 měření): 0.2887
+Nejistota Typ B (přístrojová / průměr): 0.0280
+
 </pre>
 </div>
 </div>
@@ -9019,10 +9206,10 @@ memory usage: 12.8+ KB
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"../../data/raw/clean_timelaps.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"../../data/01_DataScience/clean_timelaps.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
