@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7528,7 +7813,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Z%C3%ADsk%C3%A1v%C3%A1n%C3%AD-dat-(Data-Acquisition)">Získávání dat (Data Acquisition)<a class="anchor-link" href="#Z%C3%ADsk%C3%A1v%C3%A1n%C3%AD-dat-(Data-Acquisition)">¶</a></h3><p>Dataset TimeLaps, vzniklý na základě časosběrného monitorování robotických zdicích prací, uložen ve formátu CSV</p>
+<h3 id="Z%C3%ADsk%C3%A1v%C3%A1n%C3%AD-dat-(Data-Acquisition)">Získávání dat (Data Acquisition)<a class="anchor-link" href="#Z%C3%ADsk%C3%A1v%C3%A1n%C3%AD-dat-(Data-Acquisition)">¶</a></h3>
 </div>
 </div>
 </div>
@@ -7557,10 +7842,21 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Import potřebných knihoven</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Dataset <code>data_timelaps</code>, vzniklý na základě časosběrného monitorování robotických zdicích prací, je uložen ve formátu CSV. Obsahuje dobu pracovního cyklu bez stochastických prodlev.</p>
 </div>
 </div>
 </div>
@@ -7572,9 +7868,9 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Soubor je načten a přiřazen do proměnné ‚df‘</span>
-<span class="n">other_path</span> <span class="o">=</span> <span class="s1">'../../data/00_Raw/timelaps.csv'</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">other_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Soubor je načten a přiřazen do proměnné ‚df_timelaps‘</span>
+<span class="n">other_path</span> <span class="o">=</span> <span class="s1">'../../data/00_Raw/data_timelaps.csv'</span>
+<span class="n">df_timelaps</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">other_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7590,7 +7886,7 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Zobrazení prvních 5 řádků datasetu</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Prvních 5 řádků datového rámce'</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">df_timelaps</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7628,59 +7924,313 @@ a.anchor-link {
 <thead>
 <tr style="text-align: right;">
 <th></th>
-<th>ID</th>
-<th>TYPE</th>
-<th>START</th>
-<th>CAL</th>
-<th>WALL</th>
-<th>END</th>
+<th>id</th>
+<th>time</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th>0</th>
 <td>1</td>
-<td>CORNER</td>
-<td>13:52:18</td>
-<td>13:52:24</td>
-<td>13:52:41</td>
-<td>13:52:59</td>
+<td>44</td>
 </tr>
 <tr>
 <th>1</th>
 <td>2</td>
-<td>HALF</td>
-<td>13:52:59</td>
-<td>13:53:02</td>
-<td>13:53:19</td>
-<td>13:53:35</td>
+<td>35</td>
+</tr>
+<tr>
+<th>2</th>
+<td>4</td>
+<td>36</td>
+</tr>
+<tr>
+<th>3</th>
+<td>5</td>
+<td>34</td>
+</tr>
+<tr>
+<th>4</th>
+<td>7</td>
+<td>34</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Dataset <code>data_ARSS</code>, vzniklý na základě výstupu z SW ARSS pro robotické zdicí práce, je uložen ve formátu CSV. Obsahuje digitální kladečský plán vytvořený ve SW ARSS.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Soubor je načten a přiřazen do proměnné ‚df_ARSS‘</span>
+<span class="n">other_path</span> <span class="o">=</span> <span class="s1">'../../data/00_Raw/data_ARSS.csv'</span>
+<span class="n">df_ARSS</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">other_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Zobrazení prvních 5 řádků datasetu</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Prvních 5 řádků datového rámce'</span><span class="p">)</span>
+<span class="n">df_ARSS</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Prvních 5 řádků datového rámce
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>ID</th>
+<th>TYPE</th>
+<th>ROTATION</th>
+<th>X</th>
+<th>Y</th>
+<th>Z</th>
+<th>LAYER</th>
+<th>PALLET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1</td>
+<td>2</td>
+<td>90</td>
+<td>220.0</td>
+<td>95.0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2</td>
+<td>3</td>
+<td>90</td>
+<td>220.0</td>
+<td>252.5</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
 </tr>
 <tr>
 <th>2</th>
 <td>3</td>
-<td>BASIC</td>
-<td>13:53:35</td>
-<td>13:55:21</td>
-<td>13:55:43</td>
-<td>13:56:00</td>
+<td>1</td>
+<td>90</td>
+<td>220.0</td>
+<td>440.0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
 </tr>
 <tr>
 <th>3</th>
 <td>4</td>
-<td>BASIC</td>
-<td>13:56:00</td>
-<td>13:56:06</td>
-<td>13:56:20</td>
-<td>13:56:37</td>
+<td>1</td>
+<td>90</td>
+<td>220.0</td>
+<td>690.0</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
 </tr>
 <tr>
 <th>4</th>
 <td>5</td>
-<td>BASIC</td>
-<td>13:56:36</td>
-<td>13:56:41</td>
-<td>13:56:55</td>
-<td>13:58:11</td>
+<td>1</td>
+<td>90</td>
+<td>220.0</td>
+<td>940.0</td>
+<td>0</td>
+<td>1</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Dataset <code>data_delay</code>, vzniklý na základě časosběrného monitorování robotických zdicích prací, je uložen ve formátu CSV. Obsahuje stochastické prodlevy: defekt materiálu, servis, porucha systému, nutnost otáčení zdicích prvků.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Soubor je načten a přiřazen do proměnné ‚df_delay‘</span>
+<span class="n">other_path</span> <span class="o">=</span> <span class="s1">'../../data/00_Raw/data_delay.csv'</span>
+<span class="n">df_delay</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">other_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Zobrazení prvních 5 řádků datasetu</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Prvních 5 řádků datového rámce'</span><span class="p">)</span>
+<span class="n">df_delay</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Prvních 5 řádků datového rámce
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>id</th>
+<th>time</th>
+<th>delay</th>
+<th>total_time</th>
+<th>type_delay</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>3</td>
+<td>36</td>
+<td>109</td>
+<td>145</td>
+<td>material</td>
+</tr>
+<tr>
+<th>1</th>
+<td>6</td>
+<td>34</td>
+<td>62</td>
+<td>96</td>
+<td>service</td>
+</tr>
+<tr>
+<th>2</th>
+<td>20</td>
+<td>40</td>
+<td>200</td>
+<td>240</td>
+<td>material</td>
+</tr>
+<tr>
+<th>3</th>
+<td>31</td>
+<td>52</td>
+<td>198</td>
+<td>250</td>
+<td>system</td>
+</tr>
+<tr>
+<th>4</th>
+<td>35</td>
+<td>42</td>
+<td>24</td>
+<td>66</td>
+<td>rotation</td>
 </tr>
 </tbody>
 </table>
@@ -7705,11 +8255,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Tvorba názvů sloupců</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'type_brick'</span><span class="p">,</span> <span class="s1">'time_start'</span><span class="p">,</span> <span class="s1">'time_verif'</span><span class="p">,</span> <span class="s1">'time_dest'</span><span class="p">,</span> <span class="s1">'time_end'</span><span class="p">]</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'x'</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">,</span> <span class="s1">'z'</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Sloupce</span><span class="se">\n</span><span class="s1">'</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7724,7 +8274,7 @@ a.anchor-link {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Sloupce
- ['id', 'type_brick', 'time_start', 'time_verif', 'time_dest', 'time_end']
+ ['id', 'x', 'y', 'z']
 </pre>
 </div>
 </div>
@@ -7735,12 +8285,13 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Nahrazení názvů sloupců a následná kontrola datového rámce</span>
-<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">headers</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">df_ARSS</span> <span class="o">=</span> <span class="n">df_ARSS</span><span class="p">[[</span><span class="s1">'ID'</span><span class="p">,</span> <span class="s1">'X'</span><span class="p">,</span> <span class="s1">'Y'</span><span class="p">,</span> <span class="s1">'Z'</span><span class="p">]]</span>
+<span class="n">df_ARSS</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">headers</span>
+<span class="n">df_ARSS</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -7751,7 +8302,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -7772,61 +8323,248 @@ a.anchor-link {
 <tr style="text-align: right;">
 <th></th>
 <th>id</th>
-<th>type_brick</th>
-<th>time_start</th>
-<th>time_verif</th>
-<th>time_dest</th>
-<th>time_end</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th>0</th>
 <td>1</td>
-<td>CORNER</td>
-<td>13:52:18</td>
-<td>13:52:24</td>
-<td>13:52:41</td>
-<td>13:52:59</td>
+<td>220.0</td>
+<td>95.0</td>
+<td>0</td>
 </tr>
 <tr>
 <th>1</th>
 <td>2</td>
-<td>HALF</td>
-<td>13:52:59</td>
-<td>13:53:02</td>
-<td>13:53:19</td>
-<td>13:53:35</td>
+<td>220.0</td>
+<td>252.5</td>
+<td>0</td>
 </tr>
 <tr>
 <th>2</th>
 <td>3</td>
-<td>BASIC</td>
-<td>13:53:35</td>
-<td>13:55:21</td>
-<td>13:55:43</td>
-<td>13:56:00</td>
+<td>220.0</td>
+<td>440.0</td>
+<td>0</td>
 </tr>
 <tr>
 <th>3</th>
 <td>4</td>
-<td>BASIC</td>
-<td>13:56:00</td>
-<td>13:56:06</td>
-<td>13:56:20</td>
-<td>13:56:37</td>
+<td>220.0</td>
+<td>690.0</td>
+<td>0</td>
 </tr>
 <tr>
 <th>4</th>
 <td>5</td>
-<td>BASIC</td>
-<td>13:56:36</td>
-<td>13:56:41</td>
-<td>13:56:55</td>
-<td>13:58:11</td>
+<td>220.0</td>
+<td>940.0</td>
+<td>0</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Slou%C4%8Den%C3%AD-dataset%C5%AF-dle-id">Sloučení datasetů dle <code>id</code><a class="anchor-link" href="#Slou%C4%8Den%C3%AD-dataset%C5%AF-dle-id">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df_merged</span> <span class="o">=</span> <span class="n">df_ARSS</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_timelaps</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">"id"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
+<span class="n">df_merged</span> <span class="o">=</span> <span class="n">df_merged</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_delay</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">"id"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
+<span class="n">df_merged</span> <span class="o">=</span> <span class="n">df_merged</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df_merged</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_merged</span><span class="p">[</span><span class="s1">'time_x'</span><span class="p">]</span> <span class="o">+</span> <span class="n">df_merged</span><span class="p">[</span><span class="s1">'time_y'</span><span class="p">]</span>
+<span class="n">df_merged</span><span class="p">[</span><span class="s1">'total_time'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_merged</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span> <span class="o">+</span> <span class="n">df_merged</span><span class="p">[</span><span class="s1">'delay'</span><span class="p">]</span>
+<span class="n">df_merged</span> <span class="o">=</span> <span class="n">df_merged</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">"time_x"</span><span class="p">,</span> <span class="s2">"time_y"</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df_merged</span> <span class="o">=</span> <span class="n">df_merged</span><span class="p">[</span><span class="n">df_merged</span><span class="p">[</span><span class="s1">'total_time'</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">df_merged</span> <span class="o">=</span> <span class="n">df_merged</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df_merged</span><span class="p">[[</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'x'</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">,</span> <span class="s1">'z'</span><span class="p">,</span> <span class="s1">'time'</span><span class="p">,</span> <span class="s1">'delay'</span><span class="p">,</span> <span class="s1">'type_delay'</span><span class="p">,</span> <span class="s1">'total_time'</span><span class="p">]]</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>id</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
+<th>time</th>
+<th>delay</th>
+<th>type_delay</th>
+<th>total_time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1</td>
+<td>220.0</td>
+<td>95.0</td>
+<td>0</td>
+<td>44.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>44.0</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2</td>
+<td>220.0</td>
+<td>252.5</td>
+<td>0</td>
+<td>35.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>35.0</td>
+</tr>
+<tr>
+<th>2</th>
+<td>3</td>
+<td>220.0</td>
+<td>440.0</td>
+<td>0</td>
+<td>36.0</td>
+<td>109.0</td>
+<td>material</td>
+<td>145.0</td>
+</tr>
+<tr>
+<th>3</th>
+<td>4</td>
+<td>220.0</td>
+<td>690.0</td>
+<td>0</td>
+<td>36.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>36.0</td>
+</tr>
+<tr>
+<th>4</th>
+<td>5</td>
+<td>220.0</td>
+<td>940.0</td>
+<td>0</td>
+<td>34.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>34.0</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>264</th>
+<td>272</td>
+<td>3440.0</td>
+<td>220.0</td>
+<td>2250</td>
+<td>37.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>37.0</td>
+</tr>
+<tr>
+<th>265</th>
+<td>273</td>
+<td>3690.0</td>
+<td>220.0</td>
+<td>2250</td>
+<td>39.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>39.0</td>
+</tr>
+<tr>
+<th>266</th>
+<td>275</td>
+<td>220.0</td>
+<td>752.5</td>
+<td>2250</td>
+<td>41.0</td>
+<td>41.0</td>
+<td>rotation</td>
+<td>82.0</td>
+</tr>
+<tr>
+<th>267</th>
+<td>276</td>
+<td>220.0</td>
+<td>3127.5</td>
+<td>2250</td>
+<td>44.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>44.0</td>
+</tr>
+<tr>
+<th>268</th>
+<td>277</td>
+<td>220.0</td>
+<td>3315.0</td>
+<td>2250</td>
+<td>26.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>26.0</td>
+</tr>
+</tbody>
+</table>
+<p>269 rows × 8 columns</p>
 </div>
 </div>
 </div>
@@ -7848,109 +8586,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Nahrazení symbolu „?“ chybějící hodnotou (NaN)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'?'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>id</th>
-<th>type_brick</th>
-<th>time_start</th>
-<th>time_verif</th>
-<th>time_dest</th>
-<th>time_end</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>1</td>
-<td>CORNER</td>
-<td>13:52:18</td>
-<td>13:52:24</td>
-<td>13:52:41</td>
-<td>13:52:59</td>
-</tr>
-<tr>
-<th>1</th>
-<td>2</td>
-<td>HALF</td>
-<td>13:52:59</td>
-<td>13:53:02</td>
-<td>13:53:19</td>
-<td>13:53:35</td>
-</tr>
-<tr>
-<th>2</th>
-<td>3</td>
-<td>BASIC</td>
-<td>13:53:35</td>
-<td>13:55:21</td>
-<td>13:55:43</td>
-<td>13:56:00</td>
-</tr>
-<tr>
-<th>3</th>
-<td>4</td>
-<td>BASIC</td>
-<td>13:56:00</td>
-<td>13:56:06</td>
-<td>13:56:20</td>
-<td>13:56:37</td>
-</tr>
-<tr>
-<th>4</th>
-<td>5</td>
-<td>BASIC</td>
-<td>13:56:36</td>
-<td>13:56:41</td>
-<td>13:56:55</td>
-<td>13:58:11</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Logická hodnota ‚True‘ indikuje přítomnost chybějící hodnoty, zatímco ‚False‘ označuje její nepřítomnost.</span>
@@ -7966,7 +8602,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -7987,16 +8623,20 @@ a.anchor-link {
 <tr style="text-align: right;">
 <th></th>
 <th>id</th>
-<th>type_brick</th>
-<th>time_start</th>
-<th>time_verif</th>
-<th>time_dest</th>
-<th>time_end</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
+<th>time</th>
+<th>delay</th>
+<th>type_delay</th>
+<th>total_time</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th>0</th>
+<td>False</td>
+<td>False</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -8012,9 +8652,13 @@ a.anchor-link {
 <td>False</td>
 <td>False</td>
 <td>False</td>
+<td>False</td>
+<td>False</td>
 </tr>
 <tr>
 <th>2</th>
+<td>False</td>
+<td>False</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -8030,9 +8674,13 @@ a.anchor-link {
 <td>False</td>
 <td>False</td>
 <td>False</td>
+<td>False</td>
+<td>False</td>
 </tr>
 <tr>
 <th>4</th>
+<td>False</td>
+<td>False</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -8052,7 +8700,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Výpočet počtu chybějících hodnot v jednotlivých sloupcích datového rámce</span>
@@ -8071,27 +8719,35 @@ a.anchor-link {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>id
-False    136
+False    269
 Name: count, dtype: int64
 
-type_brick
-False    136
+x
+False    269
 Name: count, dtype: int64
 
-time_start
-False    136
+y
+False    269
 Name: count, dtype: int64
 
-time_verif
-False    136
+z
+False    269
 Name: count, dtype: int64
 
-time_dest
-False    136
+time
+False    269
 Name: count, dtype: int64
 
-time_end
-False    136
+delay
+False    269
+Name: count, dtype: int64
+
+type_delay
+False    269
+Name: count, dtype: int64
+
+total_time
+False    269
 Name: count, dtype: int64
 
 </pre>
@@ -8132,369 +8788,13 @@ Name: count, dtype: int64
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="V%C3%BDpo%C4%8Dty-a-n%C3%A1sledn%C3%A9-%C3%BApravy-dat">Výpočty a následné úpravy dat<a class="anchor-link" href="#V%C3%BDpo%C4%8Dty-a-n%C3%A1sledn%C3%A9-%C3%BApravy-dat">¶</a></h3><ol>
-<li>Change "type_brick" data to category values:<br/>
-        a. BASIC -&gt; 1<br/>
-        b. CORNER -&gt; 2<br/>
-        c. HALF -&gt; 3<br/>
-        d. END -&gt; 4<br/>
-</li>
-<li>Trasfeer values:<br/>
-        a. time_start (text: HH:MM:SS) -&gt; time_start(int: SS)<br/>
-        b. time_verif (text: HH:MM:SS) -&gt; time_verif(int: SS)<br/>
-        c. time_dest (text: HH:MM:SS) -&gt; time_dest(int: SS)<br/>
-        d. time_end (text: HH:MM:SS) -&gt; time_end(int: SS)<br/>
-</li>
-<li>Calculate time cyclus:<br/>
-        a. time_verif = time_verif - time_start<br/>
-        b. time_dest = time_dest - time_start<br/>
-        c. time_end = time_end - time_start<br/>
-        d. time_start = 0<br/>
+<li>Change "type_delay" data to category values:<br/>
+        a. material -&gt; 1<br/>
+        b. service -&gt; 2<br/>
+        c. rotation -&gt; 3<br/>
+        d. system -&gt; 4<br/>
 </li>
 </ol>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Konverze časové hodnoty</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">time_convert</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="n">h</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">s</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">':'</span><span class="p">))</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">h</span><span class="o">*</span><span class="mi">60</span><span class="o">+</span><span class="n">m</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span><span class="o">+</span><span class="n">s</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'time_start_sec'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">time_start</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">time_convert</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">'time_verif_sec'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">time_verif</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">time_convert</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">'time_dest_sec'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">time_dest</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">time_convert</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">'time_end_sec'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">time_end</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">time_convert</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>id</th>
-<th>type_brick</th>
-<th>time_start</th>
-<th>time_verif</th>
-<th>time_dest</th>
-<th>time_end</th>
-<th>time_start_sec</th>
-<th>time_verif_sec</th>
-<th>time_dest_sec</th>
-<th>time_end_sec</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>1</td>
-<td>CORNER</td>
-<td>13:52:18</td>
-<td>13:52:24</td>
-<td>13:52:41</td>
-<td>13:52:59</td>
-<td>49938</td>
-<td>49944</td>
-<td>49961</td>
-<td>49979</td>
-</tr>
-<tr>
-<th>1</th>
-<td>2</td>
-<td>HALF</td>
-<td>13:52:59</td>
-<td>13:53:02</td>
-<td>13:53:19</td>
-<td>13:53:35</td>
-<td>49979</td>
-<td>49982</td>
-<td>49999</td>
-<td>50015</td>
-</tr>
-<tr>
-<th>2</th>
-<td>3</td>
-<td>BASIC</td>
-<td>13:53:35</td>
-<td>13:55:21</td>
-<td>13:55:43</td>
-<td>13:56:00</td>
-<td>50015</td>
-<td>50121</td>
-<td>50143</td>
-<td>50160</td>
-</tr>
-<tr>
-<th>3</th>
-<td>4</td>
-<td>BASIC</td>
-<td>13:56:00</td>
-<td>13:56:06</td>
-<td>13:56:20</td>
-<td>13:56:37</td>
-<td>50160</td>
-<td>50166</td>
-<td>50180</td>
-<td>50197</td>
-</tr>
-<tr>
-<th>4</th>
-<td>5</td>
-<td>BASIC</td>
-<td>13:56:36</td>
-<td>13:56:41</td>
-<td>13:56:55</td>
-<td>13:58:11</td>
-<td>50196</td>
-<td>50201</td>
-<td>50215</td>
-<td>50291</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Kontrola-a-%C3%BAprava-form%C3%A1tu-dat">Kontrola a úprava formátu dat<a class="anchor-link" href="#Kontrola-a-%C3%BAprava-form%C3%A1tu-dat">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Kontrola datového typu</span>
-<span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>id                 int64
-type_brick        object
-time_start        object
-time_verif        object
-time_dest         object
-time_end          object
-time_start_sec     int64
-time_verif_sec     int64
-time_dest_sec      int64
-time_end_sec       int64
-dtype: object</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># úprava formátu dat: Categories -&gt; Int</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">'type'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'type_brick'</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="s1">'CORNER'</span><span class="p">,</span> <span class="s1">'HALF'</span><span class="p">,</span> <span class="s1">'BASIC'</span><span class="p">,</span> <span class="s1">'END'</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">infer_objects</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>C:\Users\Vjačeslav Usmanov\AppData\Local\Temp\ipykernel_23504\716486450.py:2: FutureWarning: Downcasting behavior in `replace` is deprecated and will be removed in a future version. To retain the old behavior, explicitly call `result.infer_objects(copy=False)`. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
-  df['type'] = df['type_brick'].replace(['CORNER', 'HALF', 'BASIC', 'END'], [2, 3, 1, 4]).infer_objects(copy=False)
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>id</th>
-<th>type_brick</th>
-<th>time_start</th>
-<th>time_verif</th>
-<th>time_dest</th>
-<th>time_end</th>
-<th>time_start_sec</th>
-<th>time_verif_sec</th>
-<th>time_dest_sec</th>
-<th>time_end_sec</th>
-<th>type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>1</td>
-<td>CORNER</td>
-<td>13:52:18</td>
-<td>13:52:24</td>
-<td>13:52:41</td>
-<td>13:52:59</td>
-<td>49938</td>
-<td>49944</td>
-<td>49961</td>
-<td>49979</td>
-<td>2</td>
-</tr>
-<tr>
-<th>1</th>
-<td>2</td>
-<td>HALF</td>
-<td>13:52:59</td>
-<td>13:53:02</td>
-<td>13:53:19</td>
-<td>13:53:35</td>
-<td>49979</td>
-<td>49982</td>
-<td>49999</td>
-<td>50015</td>
-<td>3</td>
-</tr>
-<tr>
-<th>2</th>
-<td>3</td>
-<td>BASIC</td>
-<td>13:53:35</td>
-<td>13:55:21</td>
-<td>13:55:43</td>
-<td>13:56:00</td>
-<td>50015</td>
-<td>50121</td>
-<td>50143</td>
-<td>50160</td>
-<td>1</td>
-</tr>
-<tr>
-<th>3</th>
-<td>4</td>
-<td>BASIC</td>
-<td>13:56:00</td>
-<td>13:56:06</td>
-<td>13:56:20</td>
-<td>13:56:37</td>
-<td>50160</td>
-<td>50166</td>
-<td>50180</td>
-<td>50197</td>
-<td>1</td>
-</tr>
-<tr>
-<th>4</th>
-<td>5</td>
-<td>BASIC</td>
-<td>13:56:36</td>
-<td>13:56:41</td>
-<td>13:56:55</td>
-<td>13:58:11</td>
-<td>50196</td>
-<td>50201</td>
-<td>50215</td>
-<td>50291</td>
-<td>1</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="V%C3%BDpo%C4%8Det-doby-pracovn%C3%ADho-cyklu">Výpočet doby pracovního cyklu<a class="anchor-link" href="#V%C3%BDpo%C4%8Det-doby-pracovn%C3%ADho-cyklu">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8506,11 +8806,15 @@ dtype: object</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'start_to_verif'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'time_verif_sec'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'time_start_sec'</span><span class="p">]</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">'verif_to_dest'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'time_dest_sec'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'time_verif_sec'</span><span class="p">]</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">'dest_to_end'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'time_end_sec'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'time_dest_sec'</span><span class="p">]</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">'total_time'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'time_end_sec'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'time_start_sec'</span><span class="p">]</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># úprava formátu dat: type_delay -&gt; Int</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'type_delay'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'type_delay'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s1">'material'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">'service'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s1">'rotation'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s1">'system'</span><span class="p">:</span> <span class="mi">4</span>
+<span class="p">})</span>
+<span class="n">df</span>
 </pre></div>
 </div>
 </div>
@@ -8542,19 +8846,12 @@ dtype: object</pre>
 <tr style="text-align: right;">
 <th></th>
 <th>id</th>
-<th>type_brick</th>
-<th>time_start</th>
-<th>time_verif</th>
-<th>time_dest</th>
-<th>time_end</th>
-<th>time_start_sec</th>
-<th>time_verif_sec</th>
-<th>time_dest_sec</th>
-<th>time_end_sec</th>
-<th>type</th>
-<th>start_to_verif</th>
-<th>verif_to_dest</th>
-<th>dest_to_end</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
+<th>time</th>
+<th>delay</th>
+<th>type_delay</th>
 <th>total_time</th>
 </tr>
 </thead>
@@ -8562,97 +8859,140 @@ dtype: object</pre>
 <tr>
 <th>0</th>
 <td>1</td>
-<td>CORNER</td>
-<td>13:52:18</td>
-<td>13:52:24</td>
-<td>13:52:41</td>
-<td>13:52:59</td>
-<td>49938</td>
-<td>49944</td>
-<td>49961</td>
-<td>49979</td>
-<td>2</td>
-<td>6</td>
-<td>17</td>
-<td>18</td>
-<td>41</td>
+<td>220.0</td>
+<td>95.0</td>
+<td>0</td>
+<td>44.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>44.0</td>
 </tr>
 <tr>
 <th>1</th>
 <td>2</td>
-<td>HALF</td>
-<td>13:52:59</td>
-<td>13:53:02</td>
-<td>13:53:19</td>
-<td>13:53:35</td>
-<td>49979</td>
-<td>49982</td>
-<td>49999</td>
-<td>50015</td>
-<td>3</td>
-<td>3</td>
-<td>17</td>
-<td>16</td>
-<td>36</td>
+<td>220.0</td>
+<td>252.5</td>
+<td>0</td>
+<td>35.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>35.0</td>
 </tr>
 <tr>
 <th>2</th>
 <td>3</td>
-<td>BASIC</td>
-<td>13:53:35</td>
-<td>13:55:21</td>
-<td>13:55:43</td>
-<td>13:56:00</td>
-<td>50015</td>
-<td>50121</td>
-<td>50143</td>
-<td>50160</td>
+<td>220.0</td>
+<td>440.0</td>
+<td>0</td>
+<td>36.0</td>
+<td>109.0</td>
 <td>1</td>
-<td>106</td>
-<td>22</td>
-<td>17</td>
-<td>145</td>
+<td>145.0</td>
 </tr>
 <tr>
 <th>3</th>
 <td>4</td>
-<td>BASIC</td>
-<td>13:56:00</td>
-<td>13:56:06</td>
-<td>13:56:20</td>
-<td>13:56:37</td>
-<td>50160</td>
-<td>50166</td>
-<td>50180</td>
-<td>50197</td>
-<td>1</td>
-<td>6</td>
-<td>14</td>
-<td>17</td>
-<td>37</td>
+<td>220.0</td>
+<td>690.0</td>
+<td>0</td>
+<td>36.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>36.0</td>
 </tr>
 <tr>
 <th>4</th>
 <td>5</td>
-<td>BASIC</td>
-<td>13:56:36</td>
-<td>13:56:41</td>
-<td>13:56:55</td>
-<td>13:58:11</td>
-<td>50196</td>
-<td>50201</td>
-<td>50215</td>
-<td>50291</td>
-<td>1</td>
-<td>5</td>
-<td>14</td>
-<td>76</td>
-<td>95</td>
+<td>220.0</td>
+<td>940.0</td>
+<td>0</td>
+<td>34.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>34.0</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>264</th>
+<td>272</td>
+<td>3440.0</td>
+<td>220.0</td>
+<td>2250</td>
+<td>37.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>37.0</td>
+</tr>
+<tr>
+<th>265</th>
+<td>273</td>
+<td>3690.0</td>
+<td>220.0</td>
+<td>2250</td>
+<td>39.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>39.0</td>
+</tr>
+<tr>
+<th>266</th>
+<td>275</td>
+<td>220.0</td>
+<td>752.5</td>
+<td>2250</td>
+<td>41.0</td>
+<td>41.0</td>
+<td>3</td>
+<td>82.0</td>
+</tr>
+<tr>
+<th>267</th>
+<td>276</td>
+<td>220.0</td>
+<td>3127.5</td>
+<td>2250</td>
+<td>44.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>44.0</td>
+</tr>
+<tr>
+<th>268</th>
+<td>277</td>
+<td>220.0</td>
+<td>3315.0</td>
+<td>2250</td>
+<td>26.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>26.0</td>
 </tr>
 </tbody>
 </table>
+<p>269 rows × 8 columns</p>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Kontrola-a-%C3%BAprava-form%C3%A1tu-dat">Kontrola a úprava formátu dat<a class="anchor-link" href="#Kontrola-a-%C3%BAprava-form%C3%A1tu-dat">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8664,7 +9004,8 @@ dtype: object</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Kontrola datového typu</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
 </pre></div>
 </div>
 </div>
@@ -8676,6 +9017,89 @@ dtype: object</pre>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>id              int64
+x             float64
+y             float64
+z               int64
+time          float64
+delay         float64
+type_delay      int64
+total_time    float64
+dtype: object</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Kontrola datového typu</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>id            int64
+x             int64
+y             int64
+z             int64
+time          int64
+delay         int64
+type_delay    int64
+total_time    int64
+dtype: object</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8696,121 +9120,215 @@ dtype: object</pre>
 <tr style="text-align: right;">
 <th></th>
 <th>id</th>
-<th>time_start_sec</th>
-<th>time_verif_sec</th>
-<th>time_dest_sec</th>
-<th>time_end_sec</th>
-<th>type</th>
-<th>start_to_verif</th>
-<th>verif_to_dest</th>
-<th>dest_to_end</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
+<th>time</th>
+<th>delay</th>
+<th>type_delay</th>
+<th>total_time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1</td>
+<td>220</td>
+<td>95</td>
+<td>0</td>
+<td>44</td>
+<td>0</td>
+<td>0</td>
+<td>44</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2</td>
+<td>220</td>
+<td>252</td>
+<td>0</td>
+<td>35</td>
+<td>0</td>
+<td>0</td>
+<td>35</td>
+</tr>
+<tr>
+<th>2</th>
+<td>3</td>
+<td>220</td>
+<td>440</td>
+<td>0</td>
+<td>36</td>
+<td>109</td>
+<td>1</td>
+<td>145</td>
+</tr>
+<tr>
+<th>3</th>
+<td>4</td>
+<td>220</td>
+<td>690</td>
+<td>0</td>
+<td>36</td>
+<td>0</td>
+<td>0</td>
+<td>36</td>
+</tr>
+<tr>
+<th>4</th>
+<td>5</td>
+<td>220</td>
+<td>940</td>
+<td>0</td>
+<td>34</td>
+<td>0</td>
+<td>0</td>
+<td>34</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>id</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
+<th>time</th>
+<th>delay</th>
+<th>type_delay</th>
 <th>total_time</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th>count</th>
-<td>136.000000</td>
-<td>136.000000</td>
-<td>136.000000</td>
-<td>136.000000</td>
-<td>136.000000</td>
-<td>136.000000</td>
-<td>136.000000</td>
-<td>136.000000</td>
-<td>136.000000</td>
-<td>136.000000</td>
+<td>269.000000</td>
+<td>269.000000</td>
+<td>269.000000</td>
+<td>269.000000</td>
+<td>269.000000</td>
+<td>269.000000</td>
+<td>269.000000</td>
+<td>269.000000</td>
 </tr>
 <tr>
 <th>mean</th>
-<td>68.500000</td>
-<td>53193.125000</td>
-<td>53202.507353</td>
-<td>53217.352941</td>
-<td>53240.102941</td>
-<td>1.250000</td>
-<td>9.382353</td>
-<td>14.845588</td>
-<td>22.750000</td>
-<td>46.977941</td>
+<td>139.881041</td>
+<td>1297.936803</td>
+<td>1052.033457</td>
+<td>1001.858736</td>
+<td>36.360595</td>
+<td>5.553903</td>
+<td>0.245353</td>
+<td>41.914498</td>
 </tr>
 <tr>
 <th>std</th>
-<td>39.403892</td>
-<td>2905.472855</td>
-<td>2904.759721</td>
-<td>2903.065064</td>
-<td>2895.630315</td>
-<td>0.737865</td>
-<td>9.248070</td>
-<td>5.266074</td>
-<td>35.155264</td>
-<td>37.515916</td>
+<td>79.394072</td>
+<td>1267.084840</td>
+<td>1325.817766</td>
+<td>707.763639</td>
+<td>6.630443</td>
+<td>26.319540</td>
+<td>0.800668</td>
+<td>27.564242</td>
 </tr>
 <tr>
 <th>min</th>
 <td>1.000000</td>
-<td>48678.000000</td>
-<td>48684.000000</td>
-<td>48704.000000</td>
-<td>48724.000000</td>
-<td>1.000000</td>
-<td>2.000000</td>
-<td>6.000000</td>
-<td>6.000000</td>
-<td>26.000000</td>
+<td>95.000000</td>
+<td>95.000000</td>
+<td>0.000000</td>
+<td>22.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>22.000000</td>
 </tr>
 <tr>
 <th>25%</th>
-<td>34.750000</td>
-<td>50543.250000</td>
-<td>50549.750000</td>
-<td>50567.000000</td>
-<td>50586.750000</td>
-<td>1.000000</td>
-<td>6.000000</td>
-<td>12.000000</td>
-<td>13.000000</td>
-<td>35.000000</td>
+<td>72.000000</td>
+<td>220.000000</td>
+<td>220.000000</td>
+<td>500.000000</td>
+<td>32.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>32.000000</td>
 </tr>
 <tr>
 <th>50%</th>
-<td>68.500000</td>
-<td>51772.000000</td>
-<td>51781.000000</td>
-<td>51793.000000</td>
-<td>51805.000000</td>
-<td>1.000000</td>
-<td>8.000000</td>
-<td>14.000000</td>
-<td>16.000000</td>
-<td>39.000000</td>
+<td>139.000000</td>
+<td>690.000000</td>
+<td>220.000000</td>
+<td>1000.000000</td>
+<td>36.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>36.000000</td>
 </tr>
 <tr>
 <th>75%</th>
-<td>102.250000</td>
-<td>55851.750000</td>
-<td>55859.250000</td>
-<td>55877.250000</td>
-<td>55903.750000</td>
-<td>1.000000</td>
-<td>10.000000</td>
-<td>17.000000</td>
-<td>22.000000</td>
-<td>46.000000</td>
+<td>209.000000</td>
+<td>2315.000000</td>
+<td>1565.000000</td>
+<td>1500.000000</td>
+<td>40.000000</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>42.000000</td>
 </tr>
 <tr>
 <th>max</th>
-<td>136.000000</td>
-<td>57450.000000</td>
-<td>57467.000000</td>
-<td>57473.000000</td>
-<td>57482.000000</td>
+<td>277.000000</td>
+<td>4002.000000</td>
+<td>4690.000000</td>
+<td>2250.000000</td>
+<td>58.000000</td>
+<td>260.000000</td>
 <td>4.000000</td>
-<td>106.000000</td>
-<td>56.000000</td>
-<td>403.000000</td>
-<td>436.000000</td>
+<td>296.000000</td>
 </tr>
 </tbody>
 </table>
@@ -8826,7 +9344,7 @@ dtype: object</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Identifikace-a-odstran%C4%9Bn%C3%AD-odlehl%C3%BDch-hodnot">Identifikace a odstranění odlehlých hodnot<a class="anchor-link" href="#Identifikace-a-odstran%C4%9Bn%C3%AD-odlehl%C3%BDch-hodnot">¶</a></h3>
+<h3 id="Identifikace-odlehl%C3%BDch-hodnot">Identifikace odlehlých hodnot<a class="anchor-link" href="#Identifikace-odlehl%C3%BDch-hodnot">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8835,18 +9353,19 @@ dtype: object</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Nastavení horní a dolní meze pro odlehlé hodnoty</span>
-<span class="n">low_limit</span> <span class="o">=</span> <span class="mf">0.10</span>
-<span class="n">hi_limit</span> <span class="o">=</span>  <span class="mf">0.90</span>
+<span class="n">low_limit</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">hi_limit</span> <span class="o">=</span>  <span class="mf">0.95</span>
 
-<span class="n">q_low</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'total_time'</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">low_limit</span><span class="p">)</span>
-<span class="n">q_hi</span>  <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'total_time'</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">hi_limit</span><span class="p">)</span>
+<span class="n">q_low</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">low_limit</span><span class="p">)</span>
+<span class="n">q_hi</span>  <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">hi_limit</span><span class="p">)</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">'total_time'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">q_hi</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'total_time'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">q_low</span><span class="p">)]</span>
-<span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">q_low</span><span class="si">=}</span><span class="s1">, </span><span class="si">{</span><span class="n">q_hi</span><span class="si">=}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">df_out_limit</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">q_hi</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">q_low</span><span class="p">)]</span>
+<span class="n">df_out_limit</span>
 </pre></div>
 </div>
 </div>
@@ -8859,53 +9378,12 @@ dtype: object</pre>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>&lt;class 'pandas.core.frame.DataFrame'&gt;
-Index: 106 entries, 0 to 135
-Data columns (total 15 columns):
- #   Column          Non-Null Count  Dtype 
----  ------          --------------  ----- 
- 0   id              106 non-null    int64 
- 1   type_brick      106 non-null    object
- 2   time_start      106 non-null    object
- 3   time_verif      106 non-null    object
- 4   time_dest       106 non-null    object
- 5   time_end        106 non-null    object
- 6   time_start_sec  106 non-null    int64 
- 7   time_verif_sec  106 non-null    int64 
- 8   time_dest_sec   106 non-null    int64 
- 9   time_end_sec    106 non-null    int64 
- 10  type            106 non-null    int64 
- 11  start_to_verif  106 non-null    int64 
- 12  verif_to_dest   106 non-null    int64 
- 13  dest_to_end     106 non-null    int64 
- 14  total_time      106 non-null    int64 
-dtypes: int64(10), object(5)
-memory usage: 13.2+ KB
+<pre>q_low=np.float64(26.0), q_hi=np.float64(48.599999999999994)
 </pre>
 </div>
 </div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8926,121 +9404,246 @@ memory usage: 13.2+ KB
 <tr style="text-align: right;">
 <th></th>
 <th>id</th>
-<th>time_start_sec</th>
-<th>time_verif_sec</th>
-<th>time_dest_sec</th>
-<th>time_end_sec</th>
-<th>type</th>
-<th>start_to_verif</th>
-<th>verif_to_dest</th>
-<th>dest_to_end</th>
+<th>x</th>
+<th>y</th>
+<th>z</th>
+<th>time</th>
+<th>delay</th>
+<th>type_delay</th>
 <th>total_time</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<th>count</th>
-<td>106.000000</td>
-<td>106.000000</td>
-<td>106.000000</td>
-<td>106.00000</td>
-<td>106.000000</td>
-<td>106.000000</td>
-<td>106.000000</td>
-<td>106.000000</td>
-<td>106.000000</td>
-<td>106.000000</td>
+<th>26</th>
+<td>31</td>
+<td>3065</td>
+<td>220</td>
+<td>0</td>
+<td>52</td>
+<td>198</td>
+<td>4</td>
+<td>250</td>
 </tr>
 <tr>
-<th>mean</th>
-<td>69.622642</td>
-<td>53179.698113</td>
-<td>53188.084906</td>
-<td>53203.00000</td>
-<td>53220.660377</td>
-<td>1.292453</td>
-<td>8.386792</td>
-<td>14.915094</td>
-<td>17.660377</td>
-<td>40.962264</td>
+<th>27</th>
+<td>32</td>
+<td>3315</td>
+<td>220</td>
+<td>0</td>
+<td>58</td>
+<td>0</td>
+<td>0</td>
+<td>58</td>
 </tr>
 <tr>
-<th>std</th>
-<td>37.319586</td>
-<td>2881.268663</td>
-<td>2881.518674</td>
-<td>2880.72757</td>
-<td>2879.756921</td>
-<td>0.780317</td>
-<td>3.432536</td>
-<td>3.447892</td>
-<td>6.170416</td>
-<td>6.358982</td>
+<th>28</th>
+<td>33</td>
+<td>3565</td>
+<td>220</td>
+<td>0</td>
+<td>53</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
 </tr>
 <tr>
-<th>min</th>
-<td>1.000000</td>
-<td>48678.000000</td>
-<td>48684.000000</td>
-<td>48704.00000</td>
-<td>48724.000000</td>
-<td>1.000000</td>
-<td>2.000000</td>
-<td>6.000000</td>
-<td>6.000000</td>
-<td>32.000000</td>
+<th>38</th>
+<td>43</td>
+<td>1690</td>
+<td>220</td>
+<td>250</td>
+<td>49</td>
+<td>0</td>
+<td>0</td>
+<td>49</td>
 </tr>
 <tr>
-<th>25%</th>
-<td>39.250000</td>
-<td>50539.750000</td>
-<td>50547.250000</td>
-<td>50565.00000</td>
-<td>50580.250000</td>
-<td>1.000000</td>
-<td>6.000000</td>
-<td>13.000000</td>
-<td>14.000000</td>
-<td>36.000000</td>
+<th>43</th>
+<td>48</td>
+<td>2940</td>
+<td>220</td>
+<td>250</td>
+<td>53</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
 </tr>
 <tr>
-<th>50%</th>
-<td>67.500000</td>
-<td>51736.500000</td>
-<td>51745.500000</td>
-<td>51757.00000</td>
-<td>51772.500000</td>
-<td>1.000000</td>
-<td>8.000000</td>
-<td>15.000000</td>
-<td>16.000000</td>
-<td>39.000000</td>
+<th>45</th>
+<td>50</td>
+<td>3440</td>
+<td>220</td>
+<td>250</td>
+<td>50</td>
+<td>0</td>
+<td>0</td>
+<td>50</td>
 </tr>
 <tr>
-<th>75%</th>
-<td>102.750000</td>
-<td>55879.250000</td>
-<td>55885.750000</td>
-<td>55905.75000</td>
-<td>55921.250000</td>
-<td>1.000000</td>
-<td>10.000000</td>
-<td>17.000000</td>
-<td>20.750000</td>
-<td>45.750000</td>
+<th>46</th>
+<td>51</td>
+<td>3690</td>
+<td>220</td>
+<td>250</td>
+<td>50</td>
+<td>0</td>
+<td>0</td>
+<td>50</td>
 </tr>
 <tr>
-<th>max</th>
-<td>136.000000</td>
-<td>57450.000000</td>
-<td>57467.000000</td>
-<td>57473.00000</td>
-<td>57482.000000</td>
-<td>4.000000</td>
-<td>21.000000</td>
-<td>25.000000</td>
-<td>38.000000</td>
-<td>57.000000</td>
+<th>65</th>
+<td>70</td>
+<td>220</td>
+<td>95</td>
+<td>500</td>
+<td>55</td>
+<td>0</td>
+<td>0</td>
+<td>55</td>
+</tr>
+<tr>
+<th>85</th>
+<td>90</td>
+<td>815</td>
+<td>220</td>
+<td>500</td>
+<td>56</td>
+<td>0</td>
+<td>0</td>
+<td>56</td>
+</tr>
+<tr>
+<th>100</th>
+<td>105</td>
+<td>252</td>
+<td>220</td>
+<td>750</td>
+<td>53</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
+</tr>
+<tr>
+<th>111</th>
+<td>116</td>
+<td>2940</td>
+<td>220</td>
+<td>750</td>
+<td>52</td>
+<td>0</td>
+<td>0</td>
+<td>52</td>
+</tr>
+<tr>
+<th>112</th>
+<td>117</td>
+<td>3190</td>
+<td>220</td>
+<td>750</td>
+<td>55</td>
+<td>0</td>
+<td>0</td>
+<td>55</td>
+</tr>
+<tr>
+<th>135</th>
+<td>140</td>
+<td>220</td>
+<td>690</td>
+<td>1000</td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>24</td>
+</tr>
+<tr>
+<th>136</th>
+<td>141</td>
+<td>220</td>
+<td>940</td>
+<td>1000</td>
+<td>24</td>
+<td>24</td>
+<td>3</td>
+<td>48</td>
+</tr>
+<tr>
+<th>137</th>
+<td>142</td>
+<td>220</td>
+<td>3190</td>
+<td>1000</td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>24</td>
+</tr>
+<tr>
+<th>138</th>
+<td>143</td>
+<td>220</td>
+<td>3440</td>
+<td>1000</td>
+<td>22</td>
+<td>0</td>
+<td>0</td>
+<td>22</td>
+</tr>
+<tr>
+<th>140</th>
+<td>145</td>
+<td>220</td>
+<td>3940</td>
+<td>1000</td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>24</td>
+</tr>
+<tr>
+<th>141</th>
+<td>146</td>
+<td>220</td>
+<td>4190</td>
+<td>1000</td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>24</td>
+</tr>
+<tr>
+<th>200</th>
+<td>208</td>
+<td>3565</td>
+<td>220</td>
+<td>1500</td>
+<td>49</td>
+<td>0</td>
+<td>0</td>
+<td>49</td>
+</tr>
+<tr>
+<th>223</th>
+<td>231</td>
+<td>220</td>
+<td>3127</td>
+<td>1750</td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>24</td>
+</tr>
+<tr>
+<th>228</th>
+<td>236</td>
+<td>220</td>
+<td>252</td>
+<td>2000</td>
+<td>54</td>
+<td>0</td>
+<td>0</td>
+<td>54</td>
 </tr>
 </tbody>
 </table>
@@ -9065,10 +9668,10 @@ memory usage: 13.2+ KB
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Výpočet nejistoty měření z časosběrných dat.</span>
 
@@ -9113,7 +9716,7 @@ memory usage: 13.2+ KB
         <span class="s2">"U"</span><span class="p">:</span> <span class="n">U</span>
     <span class="p">}</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">report</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'serie'</span><span class="p">]</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Kombinovaná nejistota: (</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'mean'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'u_c'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Rozšířená nejistota: (</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'mean'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'U'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">) s (k=2, 95%)"</span><span class="p">)</span>
@@ -9131,19 +9734,13 @@ memory usage: 13.2+ KB
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">'total_time'</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">report</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">'start_to_verif'</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">report</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">'verif_to_dest'</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">report</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">'dest_to_end'</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">measurement_uncertainty</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">'time'</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">report</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -9158,32 +9755,18 @@ memory usage: 13.2+ KB
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>total_time:
-Kombinovaná nejistota: (40.96 ± 0.62)
-Rozšířená nejistota: (40.96 ± 1.24) s (k=2, 95%)
-Nejistota Typ A (stochastická): 0.6176
+Kombinovaná nejistota: (41.91 ± 1.68)
+Rozšířená nejistota: (41.91 ± 3.36) s (k=2, 95%)
+Nejistota Typ A (stochastická): 1.6806
 Nejistota Typ B (přístrojová / 1 měření): 0.2887
-Nejistota Typ B (přístrojová / průměr): 0.0280
+Nejistota Typ B (přístrojová / průměr): 0.0176
 
-start_to_verif:
-Kombinovaná nejistota: (8.39 ± 0.33)
-Rozšířená nejistota: (8.39 ± 0.67) s (k=2, 95%)
-Nejistota Typ A (stochastická): 0.3334
+time:
+Kombinovaná nejistota: (36.36 ± 0.40)
+Rozšířená nejistota: (36.36 ± 0.81) s (k=2, 95%)
+Nejistota Typ A (stochastická): 0.4043
 Nejistota Typ B (přístrojová / 1 měření): 0.2887
-Nejistota Typ B (přístrojová / průměr): 0.0280
-
-verif_to_dest:
-Kombinovaná nejistota: (14.92 ± 0.34)
-Rozšířená nejistota: (14.92 ± 0.67) s (k=2, 95%)
-Nejistota Typ A (stochastická): 0.3349
-Nejistota Typ B (přístrojová / 1 měření): 0.2887
-Nejistota Typ B (přístrojová / průměr): 0.0280
-
-dest_to_end:
-Kombinovaná nejistota: (17.66 ± 0.60)
-Rozšířená nejistota: (17.66 ± 1.20) s (k=2, 95%)
-Nejistota Typ A (stochastická): 0.5993
-Nejistota Typ B (přístrojová / 1 měření): 0.2887
-Nejistota Typ B (přístrojová / průměr): 0.0280
+Nejistota Typ B (přístrojová / průměr): 0.0176
 
 </pre>
 </div>
@@ -9206,7 +9789,7 @@ Nejistota Typ B (přístrojová / průměr): 0.0280
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"../../data/01_DataScience/clean_timelaps.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
