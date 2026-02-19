@@ -1,120 +1,113 @@
-clc; clear;
-format long
+clc;
+clear;
+format long;
 
-dt = 1;
+%% Definice parametrů
+dt = 1;   % časový krok (s)
 
-T = [1 1 4 2 3 13 4 13 600 120 3000 1000];
+% Průměrné doby trvání stavů (s)
+states = { ...
+    'S1','S2','S3','S4','S5','S6','S7','S8', ...
+    'S9','S10','S11','S12'};
 
-lam9  = 1/20500;
-lam10 = 1/820;
-lam11 = 1/144000;
-lam12 = 1/14400;
+T = containers.Map( ...
+    states, ...
+    [2 2 5 2 5 7 3 6 60 70 160 20]);
 
-P = zeros(12,12);
+% Intenzity poruch (1/s)
+lambda_vals = containers.Map( ...
+    {'S9','S10','S11','S12'}, ...
+    [4/8896, 7/8896, 3/8896, 13/8896]);
 
-% ====== Provozní stavy ======
-for i = 1:7
+n = length(states);
+
+%% Inicializace přechodové matice
+P = zeros(n,n);
+
+%% Definice funkcí
+exit_probability = @(Ti) 1 - exp(-dt / Ti);
+fault_probability = @(lam) 1 - exp(-lam * dt);
+
+%% Definice přechodů
+transitions = containers.Map;
+
+transitions('S1')  = {'S2','S9','S11'};
+transitions('S2')  = {'S3','S9','S11'};
+transitions('S3')  = {'S4','S9','S10','S11'};
+transitions('S4')  = {'S5','S9','S11'};
+transitions('S5')  = {'S6','S9','S10','S11','S12'};
+transitions('S6')  = {'S7','S9','S11'};
+transitions('S7')  = {'S8','S9','S10','S11'};
+transitions('S8')  = {'S1','S9','S11'};
+transitions('S9')  = {'S1'};
+transitions('S10') = {'S3'};
+transitions('S11') = {'S1'};
+transitions('S12') = {'S5'};
+
+%% Výpočet přechodové matice
+for i = 1:n
+    si = states{i};
+    p_exit = exit_probability(T(si));
     
-    mu = 1/T(i);
-    total = mu + lam9 + lam10 + lam11 + lam12;
+    outgoing = transitions(si);
     
-    % --- CTMC aproximace ---
-    P(i,i+1) = mu * dt;
-    P(i,9)   = lam9  * dt;
-    P(i,10)  = lam10 * dt;
-    P(i,11)  = lam11 * dt;
-    P(i,12)  = lam12 * dt;
-    
-    Pii = 1 - total * dt;
-    
-    % --- Kontrola záporné pravděpodobnosti ---
-    if Pii < 0
+    for k = 1:length(outgoing)
+        sj = outgoing{k};
+        j = find(strcmp(states, sj));
         
-        % přepnutí na kompetitivní formulaci
-        P(i,i+1) = mu / total;
-        P(i,9)   = lam9  / total;
-        P(i,10)  = lam10 / total;
-        P(i,11)  = lam11 / total;
-        P(i,12)  = lam12 / total;
-        
-        P(i,i) = 0;
-        
-    else
-        P(i,i) = Pii;
+        if isKey(lambda_vals, sj)
+            P(i,j) = fault_probability(lambda_vals(sj));
+        else
+            P(i,j) = p_exit;
+        end
     end
+    
+    % pravděpodobnost setrvání
+    P(i,i) = 1 - sum(P(i,:));
 end
 
-% ====== Stav S8 ======
-i = 8;
-mu = 1/T(8);
-total = mu + lam9 + lam10 + lam11 + lam12;
+%% Kontrola součtů řádků
+disp("Součty řádků:");
+disp(sum(P,2));
 
-P(8,1)  = mu * dt;
-P(8,9)  = lam9  * dt;
-P(8,10) = lam10 * dt;
-P(8,11) = lam11 * dt;
-P(8,12) = lam12 * dt;
+disp("Přechodová matice P:");
+disp(round(P,8));
 
-Pii = 1 - total * dt;
-
-if Pii < 0
-    
-    P(8,1)  = mu / total;
-    P(8,9)  = lam9  / total;
-    P(8,10) = lam10 / total;
-    P(8,11) = lam11 / total;
-    P(8,12) = lam12 / total;
-    
-    P(8,8) = 0;
-    
-else
-    P(8,8) = Pii;
-end
-
-% ====== Neprovozní stavy ======
-for i = 9:12
-    mu = 1/T(i);
-    P(i,1) = mu * dt;
-    P(i,i) = 1 - mu * dt;
-end
-
-% ====== Výpis ======
-disp('Přechodová matice P:')
-disp(round(P,6))
-
-disp('Součet řádků:')
-disp(sum(P,2))
-
-
-
-
-
-% ====== STACIONÁRNÍ ROZDĚLENÍ ======
-
-% řešení vlastního problému
+%% Stacionární rozdělení
 [V,D] = eig(P');
 
-% nalezení vlastního čísla = 1
-[~,idx] = min(abs(diag(D)-1));
+[~,idx] = min(abs(diag(D) - 1));
+pi_vec = V(:,idx);
 
-% odpovídající vlastní vektor
-pi = V(:,idx);
+pi_vec = real(pi_vec / sum(pi_vec));
 
-% normalizace
-pi = pi / sum(pi);
+disp("Stacionární rozdělení pi:");
+disp(round(pi_vec,6));
 
-% převod na reálné hodnoty
-pi = real(pi);
+%% Dostupnost systému
+availability = sum(pi_vec(1:8));
+disp("Dostupnost systému:");
+disp(round(availability,4));
 
-disp('Stacionární rozdělení pi:')
-disp(round(pi',6))
+%% Podíl neprovozního času
+downtime = sum(pi_vec(9:12));
+disp("Podíl neprovozního času:");
+disp(round(downtime,4));
 
-availability = sum(pi(1:8));
+%% Tabulka přechodové matice
+P_table = array2table(P, 'VariableNames', states, 'RowNames', states);
+disp(P_table);
 
-disp('Dostupnost systému:')
-disp(round(availability,4))
-
-downtime = sum(pi(9:12));
-
-disp('Podíl neprovozního času:')
-disp(round(downtime,4))
+%% Heatmapa (logaritmická škála)
+figure;
+imagesc(log10(P + eps));
+colorbar;
+colormap('hot');
+xticks(1:n);
+yticks(1:n);
+xticklabels(states);
+yticklabels(states);
+xtickangle(45);
+title('Heatmapa přechodové matice (log10 škála)');
+xlabel('Do stavu');
+ylabel('Ze stavu');
