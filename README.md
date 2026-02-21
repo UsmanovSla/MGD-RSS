@@ -3,35 +3,20 @@
 
 ## Anotace
 
-Nasazení modelů umělé inteligence ve stavebním inženýrství je dosud omezeno především nedostatkem kvalitních dat potřebných pro jejich trénování. Tento projekt představuje metodologii generování strukturovaných dat využitelných při vývoji a aplikaci modelů umělé inteligence ve stavebnictví.
+Nasazení metod umělé inteligence ve stavebním inženýrství je dosud omezeno nedostatkem kvalitních dat nezbytných pro jejich trénování. Tato práce představuje metodologii generování strukturovaných dat prostřednictvím simulační aproximace stochastických robotických procesů. Deterministický model trajektorie vysvětluje pouze omezenou část variability doby pracovního cyklu, což vyžaduje stochastické modelování provozních stavů systému. Navržený přístup vychází z kombinace bayesovské kalibrace fyzikálního modelu trajektorie a stochastického modelování provozních stavů systému pomocí Markovových procesů a metod Monte Carlo. Variabilita celkové doby pracovního cyklu robotického zdění přitom není determinována pouze délkou trajektorie, ale je významně ovlivněna provozními zdrženími, která jsou v modelu reprezentována empirickým výběrovým rozdělením získaným opakovaným výběrem s vracením.
 
-Navržený přístup je založen na simulačních principech bayesovské inference a matematickém modelování dynamických systémů s využitím Markovových řetězců a metod Monte Carlo založených na Markovových řetězcích (MCMC). Vyvinutý hybridní model generátoru umožňuje efektivní tvorbu rozsáhlých datových sad vycházejících z principů adaptivního řízení sofistikovaných stochastických robotických procesů s proměnnými provozními a geometrickými podmínkami.
+Vyvinutý hybridní kalibrovaný model umožňuje simulaci posteriorní prediktivní distribuce pracovního cyklu v proměnlivých provozních a geometrických podmínkách a tím i generování syntetických dat zachovávajících distribuční vlastnosti reálného procesu. Model byl implementován a verifikován na robotizovaném procesu zdění. Validační analýza prokázala vysokou míru shody mezi simulovanými a reálnými daty, přičemž Kolmogorovův–Smirnovův test založený na opakovaném výběru s vracením indikoval, že v 75,2 % případů nelze simulaci statisticky odlišit od reality na hladině významnosti 5 %. Parametrické i neparametrické testy současně neprokázaly statisticky významný rozdíl mezi středními hodnotami ani distribuční strukturou reálných a syntetických dat.
 
-Vyvinuté modely a generátory byly implementovány a verifikovány na robotizovaných procesech zdění. Výsledky Kolmogorovova–Smirnovova testu porovnávajícího syntetická a reálná provozní data nepřekročily maximálně přípustnou statistickou odchylku stanovenou s ohledem na požadavky řízení robota. Odchylky klíčových ukazatelů se pohybovaly v rozmezí 5–7 %, což potvrzuje vysokou míru shody syntetických dat se skutečnými provozními daty.
-
-Strukturovaná simulační a syntetická data byla následně využita při trénování modelů umělé inteligence určených k optimalizaci a monitoringu robotických stavebních procesů.
-
-Navrženou metodologii lze využít k rozšíření trénovacích dat a jejich implementaci do modelů umělé inteligence napříč širokým spektrem oblastí stavebního inženýrství v průběhu celého životního cyklu budovy. Patří sem zejména návrh konstrukčních prvků a materiálů, časové a finanční plánování, optimalizace stavebních procesů, kontrola kvality objektů či facility management.
-
-Výsledky projektu přispívají k rozvoji teoretických základů stavebního inženýrství, podporují implementaci modelů umělé inteligence ve stavební praxi a otevírají nové možnosti využití moderních digitálních technologií ve výzkumu i vzdělávání.
+Navrženou metodologii lze využít k rozšíření trénovacích dat pro modely umělé inteligence napříč širokým spektrem úloh stavebního inženýrství v průběhu celého životního cyklu budovy, například při návrhu konstrukčních prvků, časovém a finančním plánování, optimalizaci stavebních procesů, kontrole kvality či facility managementu. Výsledky práce přispívají k rozvoji metod simulačního modelování ve stavebnictví a podporují implementaci modelů umělé inteligence v podmínkách omezené dostupnosti empirických dat.
 
 ---
 
 ## Klíčová slova
 
-- Umělá inteligence  
-- Generování dat  
-- Strukturovaná data  
-- Nestrukturovaná data  
-- Syntetická data  
-- Simulační data  
-- Bayesovská inference  
-- Markovův řetězec  
-- Monte Carlo metoda  
-- Kolmogorovův–Smirnovův test  
-- Stochastické modelování  
-- Simulace stavebních procesů  
-- Robotické stavební systémy  
+robotické stavební procesy; robotický zdicí systém; pracovní cyklus robotického zdění; simulační modelování; syntetická data; bayesovská kalibrace; Markovovy procesy; metody Monte Carlo; Markov Chain Monte Carlo (MCMC); stochastické modelování; posteriorní prediktivní simulace; trénovací data pro umělou inteligenci
+
+## Keywords
+robotic construction processes; robotic masonry system; robotic masonry work cycle; simulation modeling; synthetic data; Bayesian calibration; Markov processes; Monte Carlo methods; Markov Chain Monte Carlo (MCMC); stochastic modeling; posterior predictive simulation; training data for artificial intelligence
 
 ---
 
