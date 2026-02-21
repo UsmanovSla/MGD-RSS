@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mgd-rss"
+version = "0.1.0"
+description = "Hybrid Bayesian Generative Model for Synthetic Data Generation in Robotic Masonry Processes"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "GPLv3"}
+authors = [
+    { name = "Vjačeslav Usmanov", email = "vjaceslav.usmanov@cvut.cz" }
+]
+keywords = [
+    "synthetic data",
+    "bayesian calibration",
+    "MCMC",
+    "robotic masonry",
+    "hybrid modeling",
+    "AI training"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GPLv3 License",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Information Analysis"
+]
+
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "matplotlib",
+    "seaborn",
+    "scikit-learn",
+    "pymc",
+    "arviz",
+    "xarray",
+    "netcdf4"
+]
+
+[project.urls]
+Homepage = "https://github.com/UsmanovSla/MGD-RSS"
+Repository = "https://github.com/UsmanovSla/MGD-RSS"
+Documentation = "https://github.com/UsmanovSla/MGD-RSS#readme"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ["py39"]
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mgd-rss.metadata]
+data_format = ["CSV", "NetCDF"]
+model_type = "Hybrid Bayesian Generative Model"
+calibration_method = "MCMC (NUTS)"
+data_provenance = "Time study measurements of robotic masonry process"
+license_data = "GPLv3"
