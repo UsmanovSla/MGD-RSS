@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: MGD-RSS: Hybrid Synthetic Data Generator
+authors:
+  - family-names: Usmanov
+    given-names: Vjačeslav
+version: 1.0.0
+doi: 10.5281/zenodo.xxxxxxx
+date-released: 2026-02-21
+license: GPL-3.0
