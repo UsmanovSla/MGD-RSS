@@ -1,9 +1,28 @@
 cff-version: 1.2.0
-title: MGD-RSS Hybrid Synthetic Data Generator
+title: "MGD-RSS: Hybrid Bayesian Generative Model for Synthetic Data Generation in Robotic Masonry Systems"
+message: "If you use this software or dataset in your research, please cite it as below."
+type: software
 authors:
   - family-names: Usmanov
     given-names: Vjačeslav
+    affiliation: "Czech Technical University in Prague, Faculty of Civil Engineering"
+    orcid: "https://orcid.org/0000-0001-5490-1662"
 version: 1.0.0
-doi: 10.5281/zenodo.xxxxxxx
 date-released: 2026-02-21
-license: GPL-3.0
+doi: 10.5281/zenodo.18727558
+repository-code: "https://github.com/UsmanovSla/MGD-RSS"
+license: GPL-3.0-only
+keywords:
+  - synthetic data
+  - bayesian calibration
+  - mcmc
+  - monte carlo simulation
+  - robotic masonry
+  - hybrid modeling
+  - machine learning
+  - open science
+  - fair principles
+abstract:
+  Hybrid probabilistic framework for synthetic data generation based on Bayesian
+  calibration of a physical model of robotic masonry processes, integrating
+  stochastic delay modeling and Monte Carlo simulation for AI training.
