@@ -7945,50 +7945,50 @@ a.anchor-link {
 <tbody>
 <tr>
 <th>v_load</th>
-<td>0.651</td>
-<td>0.111</td>
-<td>0.460</td>
-<td>0.854</td>
-<td>0.002</td>
+<td>0.681</td>
+<td>0.105</td>
+<td>0.508</td>
+<td>0.886</td>
 <td>0.001</td>
-<td>3958.0</td>
-<td>5840.0</td>
+<td>0.001</td>
+<td>5338.0</td>
+<td>5799.0</td>
 <td>1.0</td>
 </tr>
 <tr>
 <th>v_unload</th>
 <td>1.198</td>
-<td>0.257</td>
-<td>0.705</td>
-<td>1.658</td>
+<td>0.250</td>
+<td>0.736</td>
+<td>1.653</td>
 <td>0.003</td>
 <td>0.002</td>
-<td>5690.0</td>
-<td>5023.0</td>
+<td>6997.0</td>
+<td>5989.0</td>
 <td>1.0</td>
 </tr>
 <tr>
 <th>accel</th>
-<td>0.550</td>
-<td>0.159</td>
-<td>0.345</td>
-<td>0.854</td>
-<td>0.002</td>
-<td>0.003</td>
-<td>4749.0</td>
-<td>5884.0</td>
+<td>0.487</td>
+<td>0.089</td>
+<td>0.348</td>
+<td>0.654</td>
+<td>0.001</td>
+<td>0.001</td>
+<td>6799.0</td>
+<td>6392.0</td>
 <td>1.0</td>
 </tr>
 <tr>
 <th>sigma</th>
-<td>3.593</td>
-<td>0.088</td>
-<td>3.417</td>
-<td>3.749</td>
+<td>3.590</td>
+<td>0.089</td>
+<td>3.422</td>
+<td>3.755</td>
 <td>0.001</td>
 <td>0.001</td>
-<td>8339.0</td>
-<td>7311.0</td>
+<td>8415.0</td>
+<td>7155.0</td>
 <td>1.0</td>
 </tr>
 </tbody>
@@ -8112,14 +8112,17 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># počet scénářů simulace</span>
-<span class="n">number_simulation</span> <span class="o">=</span> <span class="mi">10_000</span>
+<span class="n">number_simulation</span> <span class="o">=</span> <span class="mi">1_000</span>
 
 <span class="c1"># nastavení limitních hodnot rozsahu</span>
-<span class="n">dist_min</span> <span class="o">=</span> <span class="mi">2_000</span>
-<span class="n">dist_max</span> <span class="o">=</span> <span class="mi">10_000</span>
+<span class="n">dist_min</span> <span class="o">=</span> <span class="mi">1_200</span>
+<span class="n">dist_max</span> <span class="o">=</span> <span class="mi">6_600</span>
 
 <span class="c1"># Vygeneruje 1000 náhodných hodnot z rovnoměrného rozdělení</span>
-<span class="n">dist_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">dist_min</span><span class="p">,</span> <span class="n">dist_max</span><span class="p">,</span> <span class="n">number_simulation</span><span class="p">)</span>
+<span class="c1">#dist_range = np.random.uniform(dist_min, dist_max, number_simulation)</span>
+
+<span class="c1"># Vygeneruje 1000 hodnot z intervalu</span>
+<span class="n">dist_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">dist_min</span><span class="p">,</span> <span class="n">dist_max</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8286,7 +8289,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>(10000, 12000)</pre>
+<pre>(1000, 12000)</pre>
 </div>
 </div>
 </div>
@@ -8300,7 +8303,7 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Simulace obsahuje:</p>
 <ul>
-<li>10 000 hodnot scénářů</li>
+<li>1 000 hodnot scénářů</li>
 <li>12 000 Monte Carlo realizací pro každý scénář</li>
 </ul>
 </div>
@@ -8346,12 +8349,12 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># =====================================================</span>
@@ -8363,27 +8366,6 @@ a.anchor-link {
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Směrodatná odchylka:"</span><span class="p">,</span> <span class="n">T_std</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Medián:"</span><span class="p">,</span> <span class="n">T_median</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Průměr: [42.92518796 53.95936201 54.82303924 ... 37.44775095 37.30331261
- 47.87585148]
-95% interval: [37.76592548 47.04481144 47.73994339 ... 32.33923617 32.0517479
- 42.06722063] - [108.24822245 119.01031363 119.54546478 ... 102.76242383 102.48601093
- 113.00674861]
-Směrodatná odchylka: [20.31263712 20.30124266 20.2458304  ... 20.00979547 19.63225683
- 19.82160762]
-Medián: [38.45984569 49.68085014 50.55506495 ... 33.18958129 32.9398544
- 43.53660312]
-</pre>
 </div>
 </div>
 </div>
@@ -8445,10 +8427,10 @@ Medián: [38.45984569 49.68085014 50.55506495 ... 33.18958129 32.9398544
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Globální průměr: 45.78089707663459
-Globální 95% interval: 32.02139839545803 - 108.69217282407138
-Globální Směrodatná odchylka: 20.879563589788212
-Globální medián: 42.00183691917726
+<pre>Globální průměr: 40.67005574843392
+Globální 95% interval: 30.01754062247577 - 103.56032593979283
+Globální Směrodatná odchylka: 20.426841413134362
+Globální medián: 36.74330653215451
 </pre>
 </div>
 </div>
@@ -8502,19 +8484,19 @@ Globální medián: 42.00183691917726
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>array([[38.07152777, 38.23328284, 38.4415863 , ..., 38.62730757,
-        38.67811025, 58.44591751],
-       [48.61452465, 48.22831172, 48.62301511, ..., 48.407293  ,
-        50.57451908, 49.26972128],
-       [49.41340623, 48.98567175, 49.39449935, ..., 49.1483584 ,
-        51.47595364, 50.08988062],
+<pre>array([[ 29.28111717,  29.36527694,  28.90403591, ...,  30.28711427,
+         31.18226487,  50.03836442],
+       [ 29.2939492 ,  29.37840905,  28.9164497 , ...,  30.2986678 ,
+         31.19199615,  30.0504439 ],
+       [ 29.30934764,  29.39416758,  28.93134625, ...,  30.31253203,
+         31.20367368,  30.06493928],
        ...,
-       [33.09402733, 33.51448598, 33.63478735, ..., 34.0100358 ,
-        33.06164458, 33.3358441 ],
-       [32.8523095 , 33.28533133, 33.40135914, ..., 33.78581143,
-        32.78889726, 33.08768825],
-       [42.84534264, 42.75898061, 43.05168501, ..., 43.05563477,
-        44.0647431 , 43.3468803 ]], shape=(10000, 12000))</pre>
+       [ 43.11148511,  43.51906465,  42.28362193, ...,  42.7395023 ,
+         41.67063595,  43.05762762],
+       [ 43.12688355,  43.53482318,  42.29851848, ...,  42.75336653,
+        101.68231348,  43.07212299],
+       [ 43.13971559,  43.54795529,  42.31093227, ...,  42.76492005,
+         41.69204476,  43.08420247]], shape=(1000, 12000))</pre>
 </div>
 </div>
 </div>
@@ -8578,7 +8560,7 @@ Globální medián: 42.00183691917726
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>(120000000, 2)</pre>
+<pre>(12000000, 2)</pre>
 </div>
 </div>
 </div>
@@ -8643,29 +8625,29 @@ Globální medián: 42.00183691917726
 </thead>
 <tbody>
 <tr>
-<th>52121957</th>
-<td>5483.830858</td>
-<td>40.567093</td>
+<th>8875038</th>
+<td>5195</td>
+<td>38.933762</td>
 </tr>
 <tr>
-<th>12437378</th>
-<td>9013.410179</td>
-<td>49.481206</td>
+<th>9799933</th>
+<td>5611</td>
+<td>40.150066</td>
 </tr>
 <tr>
-<th>92811520</th>
-<td>5679.449597</td>
-<td>40.936673</td>
+<th>3368641</th>
+<td>2714</td>
+<td>33.359114</td>
 </tr>
 <tr>
-<th>42394026</th>
-<td>9643.054314</td>
-<td>49.766864</td>
+<th>10520965</th>
+<td>5935</td>
+<td>41.106167</td>
 </tr>
 <tr>
-<th>67187642</th>
-<td>8990.433929</td>
-<td>49.055589</td>
+<th>4406391</th>
+<td>3184</td>
+<td>34.030619</td>
 </tr>
 </tbody>
 </table>
