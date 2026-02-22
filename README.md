@@ -18,6 +18,7 @@ Navržený rámec je aplikovatelný napříč úlohami stavebního inženýrstv�
 generování syntetických dat; validace dat; umělá inteligence ve stavebním inženýrství; bayesovská kalibrace; stochastické modelování; Markovovy procesy; Monte Carlo simulace; MCMC; posteriorní prediktivní distribuce; pravděpodobnostní modelování; modelování konstrukčních systémů; robotický stavební systém
 
 ## Keywords
+
 synthetic data generation; data validation; artificial intelligence in civil engineering; Bayesian calibration; stochastic modeling; Markov processes; Monte Carlo simulation; MCMC; posterior predictive distribution; probabilistic modeling; structural system modeling; robotic construction system
 ---
 
