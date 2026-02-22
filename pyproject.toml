@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mgd-rss"
 version = "0.1.0"
-description = "Hybrid Bayesian Generative Model for Synthetic Data Generation in Robotic Masonry Processes"
+description = "Hybrid Bayesian Generative Model for Synthetic Data Generation in Civil Engineering"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "GPLv3"}
@@ -16,7 +16,6 @@ keywords = [
     "synthetic data",
     "bayesian calibration",
     "MCMC",
-    "robotic masonry",
     "hybrid modeling",
     "AI training"
 ]
@@ -24,8 +23,8 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GPLv3 License",
     "Intended Audience :: Science/Research",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Topic :: Scientific/Engineering :: Information Analysis"
+    "Topic :: Scientific/Engineering :: Civil Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
 ]
 
 dependencies = [

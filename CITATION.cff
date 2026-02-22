@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "MGD-RSS: Hybrid Bayesian Generative Model for Synthetic Data Generation in Robotic Masonry Systems"
+title: "MGVD-SI: Hybrid Bayesian Generative Model for Synthetic Data Generation in Civil Engineering"
 message: "If you use this software or dataset in your research, please cite it as below."
 type: software
 authors:
@@ -17,12 +17,12 @@ keywords:
   - bayesian calibration
   - mcmc
   - monte carlo simulation
-  - robotic masonry
   - hybrid modeling
   - machine learning
   - open science
   - fair principles
+  - civil engineering
 abstract:
   Hybrid probabilistic framework for synthetic data generation based on Bayesian
-  calibration of a physical model of robotic masonry processes, integrating
-  stochastic delay modeling and Monte Carlo simulation for AI training.
+  calibration of a physical model of processes, integrating
+  stochastic delay modeling and Monte Carlo simulation for AI Models in Civil Engineering.
