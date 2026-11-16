@@ -53,3 +53,17 @@ Licence projektu je uvedena v souboru `LICENSE`.
 
 Pokud projekt používáte ve vědecké práci, prosím citujte dle souboru `CITATION.cff`.
 
+---
+
+## Doplňující ověření (07_Supplement)
+
+Složka `model/07_Supplement` obsahuje doplňující výpočty provedené po odevzdání
+habilitační práce. Výsledky uvedené v práci a v Přílohách 1–6 nemění.
+
+### Známá nepřesnost v zápisu
+
+V noteboocích `DM_02_Model_Parameters` a `CM_02_SyntGenerator` je člen pro dráhu
+rozjezdu zapsán jako `(1/2) * accel * t` místo `(1/2) * accel * t**2`. Na výsledky
+to nemá vliv (0,001 s na pracovní cyklus). Notebooky byly ponechány v původní
+podobě, aby repozitář reprodukoval výsledky odevzdané práce. Podrobnosti jsou
+v notebooku `SV_01_Supplementary_Validation`.
